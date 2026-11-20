@@ -1,0 +1,1209 @@
+
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FitTrack | Monthly History</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<style>
+:root {
+    --bg:#0b1428;
+    --card:#14223d;
+    --card2:#192b49;
+    --text:#f3f6ff;
+    --muted:#91a4c4;
+    --blue:#398bfa;
+    --border:#263b59;
+    --green:#38d996;
+    --pink:#f0a9c0;
+}
+
+* { box-sizing:border-box; }
+
+body {
+    margin:0;
+    padding:25px 20px 110px;
+    background:var(--bg);
+    color:var(--text);
+    font-family:'Kanit',sans-serif;
+}
+
+.container {
+    max-width:1150px;
+    margin:auto;
+}
+
+header {
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:15px;
+    margin-bottom:28px;
+}
+
+.logo {
+    font-size:25px;
+    font-weight:700;
+    color:#fff;
+}
+
+.logo span { color:var(--blue); }
+
+.status {
+    color:var(--muted);
+    font-size:12px;
+}
+
+.logout {
+    background:#203451;
+    border:1px solid var(--border);
+    color:white;
+    padding:9px 15px;
+    border-radius:10px;
+    cursor:pointer;
+    font-family:inherit;
+}
+
+h1 {
+    font-size:28px;
+    margin:0;
+}
+
+.subtitle {
+    color:var(--muted);
+    font-size:13px;
+    margin:5px 0 22px;
+}
+
+.card {
+    background:var(--card);
+    border:1px solid var(--border);
+    border-radius:18px;
+    padding:22px;
+    margin-bottom:22px;
+}
+
+.section-title {
+    font-size:19px;
+    font-weight:600;
+    margin:0 0 15px;
+}
+
+.small-text {
+    color:var(--muted);
+    font-size:12px;
+}
+
+/* MONTHLY MESSAGE */
+
+.message-card {
+    background:linear-gradient(125deg,#193e69,#26365e,#382d59);
+    border:1px solid #355780;
+    border-radius:22px;
+    padding:25px;
+    margin-bottom:22px;
+    position:relative;
+    overflow:hidden;
+}
+
+.message-card::after {
+    content:"✦";
+    position:absolute;
+    right:25px;
+    top:10px;
+    font-size:65px;
+    color:#ffffff18;
+}
+
+.message-emoji { font-size:32px; }
+
+.message-card h2 {
+    font-size:25px;
+    margin:8px 0;
+}
+
+.message-card p {
+    color:#d5e4fa;
+    line-height:1.7;
+    margin:5px 0;
+}
+
+.message-percent {
+    font-size:34px;
+    font-weight:700;
+    margin:8px 0;
+}
+
+.message-card.good .message-percent { color:#65e3aa; }
+.message-card.down .message-percent { color:#f3b5c3; }
+.message-card.same .message-percent { color:#a8c8ff; }
+
+/* MONTH SELECTOR */
+
+.month-selector {
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    gap:20px;
+    margin-bottom:20px;
+}
+
+.month-selector button {
+    border:none;
+    background:#203b60;
+    color:white;
+    border-radius:10px;
+    width:38px;
+    height:38px;
+    font-size:20px;
+    cursor:pointer;
+    transition:0.2s;
+}
+
+.month-selector button:hover:not(:disabled) {
+    background:#398bfa;
+}
+
+.month-selector button:disabled {
+    opacity:0.3;
+    cursor:not-allowed;
+}
+
+#monthLabel {
+    font-size:19px;
+    font-weight:600;
+    min-width:165px;
+    text-align:center;
+}
+
+.summary-grid {
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:13px;
+}
+
+.summary-item {
+    background:var(--card2);
+    border-radius:14px;
+    padding:17px;
+}
+
+.summary-item strong {
+    display:block;
+    font-size:25px;
+    color:#65a9ff;
+}
+
+.summary-item span {
+    font-size:12px;
+    color:var(--muted);
+}
+
+/* CHART */
+
+.chart-wrap {
+    position:relative;
+    width:100%;
+    height:270px;
+}
+
+/* CALENDAR */
+
+.calendar-head {
+    display:grid;
+    grid-template-columns:repeat(7,1fr);
+    text-align:center;
+    margin-bottom:9px;
+}
+
+.calendar-head span {
+    color:var(--muted);
+    font-size:12px;
+}
+
+.calendar-grid {
+    display:grid;
+    grid-template-columns:repeat(7,1fr);
+    gap:7px;
+}
+
+.calendar-day {
+    min-height:58px;
+    border-radius:10px;
+    background:#1a2b47;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    gap:5px;
+    font-size:13px;
+}
+
+.calendar-day.empty {
+    background:transparent;
+}
+
+.calendar-day.level1 { background:#174477; }
+.calendar-day.level2 { background:#2068ad; }
+.calendar-day.level3 { background:#2985df; }
+.calendar-day.level4 { background:#42a4ff; }
+
+.calendar-day .dot {
+    width:5px;
+    height:5px;
+    border-radius:50%;
+    background:#75c4ff;
+}
+
+.calendar-day:not(.empty).level1 .dot,
+.calendar-day:not(.empty).level2 .dot,
+.calendar-day:not(.empty).level3 .dot,
+.calendar-day:not(.empty).level4 .dot {
+    background:white;
+}
+
+.legend {
+    display:flex;
+    flex-wrap:wrap;
+    gap:12px;
+    margin-top:15px;
+    color:var(--muted);
+    font-size:11px;
+}
+
+.legend span {
+    display:flex;
+    align-items:center;
+    gap:5px;
+}
+
+.legend i {
+    width:10px;
+    height:10px;
+    border-radius:3px;
+}
+
+/* PIE */
+
+.pie-layout {
+    display:grid;
+    grid-template-columns:minmax(0,1.2fr) minmax(160px,0.8fr);
+    align-items:center;
+    gap:15px;
+}
+
+.pie-wrap {
+    position:relative;
+    width:100%;
+    max-width:340px;
+    margin:auto;
+    aspect-ratio:1;
+}
+
+.pie-wrap canvas {
+    width:100% !important;
+    height:100% !important;
+}
+
+.muscle-legend {
+    display:flex;
+    flex-direction:column;
+    gap:13px;
+}
+
+.muscle-row {
+    display:flex;
+    align-items:center;
+    gap:9px;
+    font-size:13px;
+}
+
+.muscle-color {
+    width:11px;
+    height:11px;
+    border-radius:4px;
+    flex-shrink:0;
+}
+
+.muscle-row strong {
+    margin-left:auto;
+}
+
+/* PERSONAL BEST */
+
+.best-grid {
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:13px;
+}
+
+.best-box {
+    background:var(--card2);
+    padding:20px;
+    border-radius:15px;
+}
+
+.best-box .emoji { font-size:25px; }
+
+.best-box strong {
+    display:block;
+    font-size:25px;
+    margin:5px 0;
+    color:#76b7ff;
+}
+
+/* DAILY LOG */
+
+.day-card {
+    background:var(--card2);
+    border:1px solid var(--border);
+    border-radius:14px;
+    margin-bottom:12px;
+    overflow:hidden;
+}
+
+.day-toggle {
+    width:100%;
+    border:0;
+    background:transparent;
+    color:white;
+    padding:17px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    text-align:left;
+    font-family:inherit;
+    cursor:pointer;
+    gap:10px;
+}
+
+.day-detail {
+    display:none;
+    padding:0 17px 17px;
+}
+
+.day-card.open .day-detail { display:block; }
+
+.session {
+    border-top:1px solid var(--border);
+    padding:12px 0;
+}
+
+.session strong { font-size:14px; }
+
+.session p {
+    color:var(--muted);
+    font-size:12px;
+    margin:4px 0 0;
+}
+
+.empty-state {
+    text-align:center;
+    color:var(--muted);
+    padding:35px 10px;
+    line-height:1.8;
+}
+
+.empty-state .emoji { font-size:34px; }
+
+.nav {
+    position:fixed;
+    bottom:0;
+    left:0;
+    width:100%;
+    z-index:1000;
+    display:flex;
+    justify-content:center;
+    gap:8px;
+    background:#101e35;
+    border-top:1px solid var(--border);
+    padding:12px 8px;
+}
+
+.nav a {
+    color:var(--muted);
+    text-decoration:none;
+    padding:10px 17px;
+    border-radius:10px;
+    font-size:13px;
+    white-space:nowrap;
+}
+
+.nav a.active {
+    background:#214d80;
+    color:white;
+}
+
+@media(max-width:700px) {
+    body { padding:18px 13px 100px; }
+    header { flex-wrap:wrap; }
+    .logo { font-size:22px; }
+    h1 { font-size:24px; }
+    .card { padding:17px; }
+    .summary-grid { grid-template-columns:repeat(2,1fr); }
+    .summary-item strong { font-size:22px; }
+    .pie-layout { grid-template-columns:1fr; }
+    .pie-wrap { max-width:300px; }
+    .muscle-legend { display:grid; grid-template-columns:1fr 1fr; }
+    .best-grid { grid-template-columns:1fr 1fr; }
+    .calendar-day { min-height:47px; }
+    .nav { gap:0; }
+    .nav a { padding:10px 11px; font-size:11px; }
+    .message-card h2 { font-size:22px; }
+}
+
+@media(max-width:380px) {
+    .nav a { padding:9px 7px; font-size:10px; }
+    .calendar-grid { gap:4px; }
+    .calendar-day { min-height:42px; }
+}
+</style>
+</head>
+
+<body>
+<div class="container">
+
+<header>
+    <div>
+        <div class="logo">FIT<span>TRACK</span></div>
+        <div class="status">● ยังไม่เชื่อมต่ออุปกรณ์</div>
+    </div>
+    <button class="logout" onclick="logout()">ออกจากระบบ</button>
+</header>
+
+<h1>Monthly History 📅</h1>
+<p class="subtitle">ติดตามพัฒนาการและความสม่ำเสมอในการออกกำลังกายของคุณ</p>
+
+<!-- MONTHLY MESSAGE -->
+
+<section class="message-card" id="messageCard">
+    <div class="message-emoji" id="messageEmoji">🌷</div>
+    <h2 id="messageTitle">ยินดีต้อนรับ!</h2>
+    <p id="messageText">ทุกก้าวเล็ก ๆ คือความก้าวหน้าของคุณ</p>
+    <div class="message-percent" id="messagePercent">เริ่มต้นกันเลย</div>
+    <p id="messageWish">ขอให้เดือนนี้เป็นเดือนที่ดีนะ 💙</p>
+</section>
+
+<!-- MONTHLY SUMMARY -->
+
+<section class="card">
+    <h2 class="section-title">📊 Monthly Summary</h2>
+
+    <div class="month-selector">
+        <button id="prevMonth" onclick="changeMonth(-1)" aria-label="เดือนก่อนหน้า">‹</button>
+        <div id="monthLabel">กำลังโหลด...</div>
+        <button id="nextMonth" onclick="changeMonth(1)" aria-label="เดือนถัดไป">›</button>
+    </div>
+
+    <div class="summary-grid">
+        <div class="summary-item">
+            <strong id="activeDays">0 วัน</strong>
+            <span>วันที่เข้าฝึก</span>
+        </div>
+        <div class="summary-item">
+            <strong id="totalSets">0 เซต</strong>
+            <span>เซตสะสม</span>
+        </div>
+        <div class="summary-item">
+            <strong id="totalReps">0 ครั้ง</strong>
+            <span>ครั้งสะสม</span>
+        </div>
+        <div class="summary-item">
+            <strong id="totalMinutes">0 นาที</strong>
+            <span>เวลารวม</span>
+        </div>
+    </div>
+</section>
+
+<!-- WEEKLY CHART -->
+
+<section class="card">
+    <h2 class="section-title">📈 Weekly Workout</h2>
+    <p class="small-text">จำนวนเซตที่ออกกำลังกายในแต่ละสัปดาห์</p>
+    <div class="chart-wrap">
+        <canvas id="weeklyChart"></canvas>
+    </div>
+</section>
+
+<!-- CALENDAR -->
+
+<section class="card">
+    <h2 class="section-title">🗓️ Workout Calendar</h2>
+    <p class="small-text">วันที่ฝึกและระดับความเข้มข้นจากจำนวนเซต</p>
+
+    <div class="calendar-head">
+        <span>อา</span><span>จ</span><span>อ</span>
+        <span>พ</span><span>พฤ</span><span>ศ</span><span>ส</span>
+    </div>
+
+    <div class="calendar-grid" id="calendarGrid"></div>
+
+    <div class="legend">
+        <span><i style="background:#1a2b47"></i>ไม่มีข้อมูล</span>
+        <span><i style="background:#174477"></i>1-3 เซต</span>
+        <span><i style="background:#2068ad"></i>4-6 เซต</span>
+        <span><i style="background:#2985df"></i>7-9 เซต</span>
+        <span><i style="background:#42a4ff"></i>10+ เซต</span>
+    </div>
+</section>
+
+<!-- MUSCLE DISTRIBUTION -->
+
+<section class="card">
+    <h2 class="section-title">💪 Muscle Distribution</h2>
+    <p class="small-text">สัดส่วนเวลาที่ใช้ฝึกกล้ามเนื้อแต่ละส่วนในเดือนนี้</p>
+
+    <div class="pie-layout">
+        <div class="pie-wrap">
+            <canvas id="muscleChart"></canvas>
+        </div>
+        <div class="muscle-legend" id="muscleLegend"></div>
+    </div>
+</section>
+
+<!-- PERSONAL BEST -->
+
+<section class="card">
+    <h2 class="section-title">🏆 Personal Best</h2>
+    <div class="best-grid">
+        <div class="best-box">
+            <div class="emoji">🔥</div>
+            <span class="small-text">จำนวนครั้งสูงสุดใน 1 วัน</span>
+            <strong id="bestReps">0 ครั้ง</strong>
+            <span class="small-text" id="bestRepsDate">ยังไม่มีข้อมูล</span>
+        </div>
+        <div class="best-box">
+            <div class="emoji">⭐</div>
+            <span class="small-text">จำนวนเซตสูงสุดใน 1 วัน</span>
+            <strong id="bestSets">0 เซต</strong>
+            <span class="small-text" id="bestSetsDate">ยังไม่มีข้อมูล</span>
+        </div>
+    </div>
+</section>
+
+<!-- DAILY HISTORY -->
+
+<section class="card">
+    <h2 class="section-title">📋 Daily Session Log</h2>
+    <p class="small-text">ประวัติการออกกำลังกาย เรียงจากวันล่าสุด</p>
+    <div id="dailyHistory"></div>
+</section>
+
+</div>
+
+<nav class="nav">
+    <a href="dashboard.html">⌂ หน้าหลัก</a>
+    <a href="statistics.html">▦ สถิติ</a>
+    <a href="history.html" class="active">▣ ประวัติ</a>
+    <a href="analysis.html">◈ วิเคราะห์</a>
+</nav>
+
+<script>
+/* DATA */
+
+const categories = {
+    "Chest Press":"อก",
+    "Lat Pulldown":"หลัง",
+    "Seated Row":"หลัง",
+    "Shoulder Press":"ไหล่",
+    "Leg Extension":"ขา",
+    "Leg Curl":"ขา",
+    "Leg Press":"ขา",
+    "Hack Squat":"ขา",
+    "Chest Press Machine":"อก",
+    "Shoulder Press Machine":"ไหล่",
+    "Smith Squat":"ขา",
+    "Smith Bench Press":"อก",
+    "Barbell Squat":"ขา",
+    "Barbell Bench Press":"อก",
+    "Cable Row":"หลัง",
+    "Triceps Pushdown":"แขน",
+    "Cable Fly":"อก",
+    "Cable Biceps Curl":"แขน"
+};
+
+const colors = {
+    "อก":"#398bfa",
+    "หลัง":"#25b8b0",
+    "ขา":"#9a83f5",
+    "ไหล่":"#e6a34a",
+    "แขน":"#ed83a8"
+};
+
+const thaiMonths = [
+    "มกราคม","กุมภาพันธ์","มีนาคม","เมษายน",
+    "พฤษภาคม","มิถุนายน","กรกฎาคม","สิงหาคม",
+    "กันยายน","ตุลาคม","พฤศจิกายน","ธันวาคม"
+];
+
+/* MONTH RANGE */
+
+const today = new Date();
+
+const minMonth = new Date(
+    today.getFullYear(),
+    today.getMonth() - 11,
+    1
+);
+
+const maxMonth = new Date(
+    today.getFullYear(),
+    today.getMonth(),
+    1
+);
+
+// เริ่มต้นที่เดือนปัจจุบัน
+let selectedMonth = new Date(
+    today.getFullYear(),
+    today.getMonth(),
+    1
+);
+
+let weeklyChart = null;
+let muscleChart = null;
+
+function getRecords() {
+    try {
+        const data = JSON.parse(localStorage.getItem("fittrackWorkouts") || "[]");
+        return Array.isArray(data) ? data : [];
+    } catch(e) {
+        return [];
+    }
+}
+
+function getDate(record) {
+    const d = new Date(record.date);
+    return isNaN(d.getTime()) ? null : d;
+}
+
+function getNumber(value) {
+    return Math.max(0, Number(value) || 0);
+}
+
+function getMonthRecords(month) {
+    return getRecords().filter(r => {
+        const d = getDate(r);
+        return d &&
+            d.getMonth() === month.getMonth() &&
+            d.getFullYear() === month.getFullYear();
+    });
+}
+
+function groupByDay(records) {
+    const groups = {};
+
+    records.forEach(r => {
+        const d = getDate(r);
+        if(!d) return;
+
+        const key = [
+            d.getFullYear(),
+            d.getMonth(),
+            d.getDate()
+        ].join("-");
+
+        if(!groups[key]) groups[key] = [];
+        groups[key].push(r);
+    });
+
+    return groups;
+}
+
+function dateKey(d) {
+    return `${d.getFullYear()}-${d.getMonth()}-${d.getDate()}`;
+}
+
+function formatDate(d) {
+    return d.toLocaleDateString("th-TH", {
+        weekday:"long",
+        day:"numeric",
+        month:"short",
+        year:"numeric"
+    });
+}
+
+function formatShortDate(d) {
+    return d.toLocaleDateString("th-TH", {
+        day:"numeric",
+        month:"short"
+    });
+}
+
+/* MONTH CHANGE */
+
+function changeMonth(amount) {
+
+    const next = new Date(
+        selectedMonth.getFullYear(),
+        selectedMonth.getMonth() + amount,
+        1
+    );
+
+    // ป้องกันการย้อนเกิน 12 เดือน
+    if(next < minMonth) return;
+
+    // ป้องกันการเลือกเดือนอนาคต
+    if(next > maxMonth) return;
+
+    selectedMonth = next;
+
+    render();
+}
+
+/* UPDATE MONTH BUTTONS */
+
+function updateMonthButtons() {
+
+    const prevButton = document.getElementById("prevMonth");
+    const nextButton = document.getElementById("nextMonth");
+
+    prevButton.disabled = selectedMonth <= minMonth;
+    nextButton.disabled = selectedMonth >= maxMonth;
+}
+
+/* SUMMARY */
+
+function renderSummary(records) {
+    const groups = groupByDay(records);
+    const days = Object.keys(groups);
+
+    const sets = records.reduce((s,r)=>s+getNumber(r.sets),0);
+    const reps = records.reduce((s,r)=>s+getNumber(r.reps),0);
+    const minutes = records.reduce((s,r)=>s+getNumber(r.duration),0);
+
+    document.getElementById("activeDays").textContent = days.length+" วัน";
+    document.getElementById("totalSets").textContent = sets+" เซต";
+    document.getElementById("totalReps").textContent = reps.toLocaleString("th-TH")+" ครั้ง";
+    document.getElementById("totalMinutes").textContent = minutes+" นาที";
+}
+
+/* MONTH COMPARISON MESSAGE */
+
+function renderMessage(records) {
+    const previous = new Date(
+        selectedMonth.getFullYear(),
+        selectedMonth.getMonth()-1,
+        1
+    );
+
+    const previousRecords = getMonthRecords(previous);
+
+    const currentSets = records.reduce((s,r)=>s+getNumber(r.sets),0);
+    const previousSets = previousRecords.reduce((s,r)=>s+getNumber(r.sets),0);
+
+    const card = document.getElementById("messageCard");
+    const emoji = document.getElementById("messageEmoji");
+    const title = document.getElementById("messageTitle");
+    const text = document.getElementById("messageText");
+    const percent = document.getElementById("messagePercent");
+    const wish = document.getElementById("messageWish");
+
+    card.className = "message-card";
+
+    if(previousRecords.length === 0) {
+        emoji.textContent = "🌷✨";
+        title.textContent = "เริ่มต้นเดือนใหม่กัน!";
+        text.textContent = "เก็บทุกความพยายามให้เป็นความทรงจำดี ๆ";
+        percent.textContent = "Your Journey 💙";
+        wish.textContent = "ขอให้เดือนนี้เต็มไปด้วยพลังดี ๆ นะ";
+        return;
+    }
+
+    if(previousSets === 0) {
+        emoji.textContent = "🌱";
+        title.textContent = "เดือนนี้เริ่มมีพัฒนาการแล้ว!";
+        text.textContent = "คุณเริ่มสะสมการฝึกของตัวเองได้แล้ว";
+        percent.textContent = currentSets+" เซต";
+        wish.textContent = "ค่อย ๆ สร้างความสม่ำเสมอไปด้วยกันนะ";
+        return;
+    }
+
+    const change = ((currentSets-previousSets)/previousSets)*100;
+    const value = Math.round(Math.abs(change));
+
+    if(change > 0) {
+        card.classList.add("good");
+        emoji.textContent = "🎉🥳✨";
+        title.textContent = "เก่งมากเลย!";
+        text.textContent = "เดือนนี้คุณทำได้มากกว่าเดือนที่แล้ว";
+        percent.textContent = "+"+value+"%";
+        wish.textContent = "ขอให้เดือนหน้าเป็นเดือนที่ยอดเยี่ยมอีกนะ 💙🌷";
+    } else if(change < 0) {
+        card.classList.add("down");
+        emoji.textContent = "🥺🌧️";
+        title.textContent = "ไม่เป็นไรเลยนะ 💗";
+        text.textContent = "เดือนนี้อาจมีหลายอย่างให้จัดการ";
+        percent.textContent = "-"+value+"%";
+        wish.textContent = "พักได้ เริ่มใหม่ได้ ไม่ต้องกดดันตัวเองนะ 🐻🌈";
+    } else {
+        card.classList.add("same");
+        emoji.textContent = "🌟💙";
+        title.textContent = "รักษามาตรฐานได้ดีเลย!";
+        text.textContent = "คุณทำจำนวนเซตได้เท่ากับเดือนที่แล้ว";
+        percent.textContent = "0%";
+        wish.textContent = "รักษาความสม่ำเสมอแบบนี้ต่อไปนะ ✨";
+    }
+}
+
+/* WEEKLY BAR CHART */
+
+function renderWeekly(records) {
+    const year = selectedMonth.getFullYear();
+    const month = selectedMonth.getMonth();
+    const days = new Date(year,month+1,0).getDate();
+
+    const totals = [0,0,0,0,0];
+
+    records.forEach(r => {
+        const d = getDate(r);
+        if(!d) return;
+        const week = Math.floor((d.getDate()-1)/7);
+        totals[week] += getNumber(r.sets);
+    });
+
+    const labels = Array.from(
+        {length:Math.ceil(days/7)},
+        (_,i)=>"สัปดาห์ "+(i+1)
+    );
+
+    if(weeklyChart) weeklyChart.destroy();
+
+    weeklyChart = new Chart(document.getElementById("weeklyChart"),{
+        type:"bar",
+        data:{
+            labels,
+            datasets:[{
+                label:"จำนวนเซต",
+                data:totals.slice(0,labels.length),
+                backgroundColor:"#398bfa",
+                borderRadius:8,
+                maxBarThickness:55
+            }]
+        },
+        options:{
+            responsive:true,
+            maintainAspectRatio:false,
+            plugins:{
+                legend:{display:false}
+            },
+            scales:{
+                x:{
+                    ticks:{color:"#91a4c4"},
+                    grid:{display:false}
+                },
+                y:{
+                    beginAtZero:true,
+                    ticks:{color:"#91a4c4",precision:0},
+                    grid:{color:"#263b59"}
+                }
+            }
+        }
+    });
+}
+
+/* CALENDAR */
+
+function renderCalendar(records) {
+    const grid = document.getElementById("calendarGrid");
+    grid.innerHTML = "";
+
+    const year = selectedMonth.getFullYear();
+    const month = selectedMonth.getMonth();
+    const firstDay = new Date(year,month,1).getDay();
+    const totalDays = new Date(year,month+1,0).getDate();
+    const groups = groupByDay(records);
+
+    // ช่องว่างก่อนวันที่ 1
+    for(let i=0;i<firstDay;i++) {
+        const empty = document.createElement("div");
+        empty.className = "calendar-day empty";
+        grid.appendChild(empty);
+    }
+
+    // สร้างวันที่ทั้งหมดในเดือน
+    for(let day=1;day<=totalDays;day++) {
+        const d = new Date(year,month,day);
+        const items = groups[dateKey(d)] || [];
+        const sets = items.reduce((s,r)=>s+getNumber(r.sets),0);
+
+        let level = "";
+
+        if(sets>0 && sets<=3) level="level1";
+        else if(sets<=6 && sets>0) level="level2";
+        else if(sets<=9 && sets>0) level="level3";
+        else if(sets>=10) level="level4";
+
+        const cell = document.createElement("div");
+        cell.className = "calendar-day "+level;
+        cell.innerHTML = `<span>${day}</span>${sets>0?'<span class="dot"></span>':''}`;
+        cell.title = sets>0
+            ? `${day} ${thaiMonths[month]}: ${sets} เซต`
+            : "ไม่มีข้อมูลการฝึก";
+
+        grid.appendChild(cell);
+    }
+
+    // เติมช่องว่างท้ายปฏิทินให้ครบ 42 ช่อง
+    const totalCells = firstDay + totalDays;
+
+    for(let i=totalCells;i<42;i++) {
+        const empty = document.createElement("div");
+        empty.className = "calendar-day empty";
+        grid.appendChild(empty);
+    }
+}
+
+/* PIE CHART */
+
+const percentageLabels = {
+    id:"percentageLabels",
+    afterDatasetsDraw(chart) {
+        const {ctx} = chart;
+        const dataset = chart.data.datasets[0];
+        const meta = chart.getDatasetMeta(0);
+        const total = dataset.data.reduce((a,b)=>a+b,0);
+
+        if(!total) return;
+
+        ctx.save();
+        ctx.textAlign = "center";
+        ctx.textBaseline = "middle";
+        ctx.font = "bold 13px Kanit";
+
+        meta.data.forEach((arc,i)=>{
+            const value = dataset.data[i];
+            if(!value) return;
+
+            const percentage = value/total*100;
+            if(percentage < 7) return;
+
+            const angle = (arc.startAngle+arc.endAngle)/2;
+            const radius = arc.innerRadius+(arc.outerRadius-arc.innerRadius)*0.52;
+
+            const x = arc.x+Math.cos(angle)*radius;
+            const y = arc.y+Math.sin(angle)*radius;
+
+            ctx.fillStyle = "#ffffff";
+            ctx.shadowColor = "#00000055";
+            ctx.shadowBlur = 3;
+            ctx.fillText(Math.round(percentage)+"%",x,y);
+        });
+
+        ctx.restore();
+    }
+};
+
+function renderMuscles(records) {
+    const totals = {};
+
+    records.forEach(r=>{
+        const muscle = categories[r.machine] || "อื่น ๆ";
+        const minutes = getNumber(r.duration);
+
+        totals[muscle] = (totals[muscle] || 0)+minutes;
+    });
+
+    const names = Object.keys(totals).filter(n=>totals[n]>0);
+    const values = names.map(n=>totals[n]);
+    const chartColors = names.map(n=>colors[n] || "#91a4c4");
+
+    const legend = document.getElementById("muscleLegend");
+    legend.innerHTML = "";
+
+    if(muscleChart) muscleChart.destroy();
+
+    if(values.length === 0) {
+        legend.innerHTML = '<div class="empty-state">ยังไม่มีข้อมูลสัดส่วนกล้ามเนื้อ 💙</div>';
+        return;
+    }
+
+    names.forEach((name,i)=>{
+        const total = values.reduce((a,b)=>a+b,0);
+        const percent = Math.round(values[i]/total*100);
+
+        const row = document.createElement("div");
+        row.className = "muscle-row";
+        row.innerHTML = `
+            <span class="muscle-color" style="background:${chartColors[i]}"></span>
+            <span>${name}</span>
+            <strong>${percent}%</strong>
+        `;
+        legend.appendChild(row);
+    });
+
+    muscleChart = new Chart(document.getElementById("muscleChart"),{
+        type:"doughnut",
+        data:{
+            labels:names,
+            datasets:[{
+                data:values,
+                backgroundColor:chartColors,
+                borderColor:"#14223d",
+                borderWidth:3,
+                hoverOffset:7
+            }]
+        },
+        plugins:[percentageLabels],
+        options:{
+            responsive:true,
+            maintainAspectRatio:false,
+            cutout:"43%",
+            layout:{padding:8},
+            plugins:{
+                legend:{display:false},
+                tooltip:{
+                    callbacks:{
+                        label(context) {
+                            const total = context.dataset.data.reduce((a,b)=>a+b,0);
+                            const p = context.raw/total*100;
+                            return `${context.label}: ${p.toFixed(1)}%`;
+                        }
+                    }
+                }
+            }
+        }
+    });
+}
+
+/* PERSONAL BEST */
+
+function renderBest(records) {
+    const groups = groupByDay(records);
+    const days = Object.keys(groups);
+
+    if(days.length===0) {
+        document.getElementById("bestReps").textContent="0 ครั้ง";
+        document.getElementById("bestSets").textContent="0 เซต";
+        document.getElementById("bestRepsDate").textContent="ยังไม่มีข้อมูล";
+        document.getElementById("bestSetsDate").textContent="ยังไม่มีข้อมูล";
+        return;
+    }
+
+    const daily = days.map(key=>{
+        const items = groups[key];
+        const date = getDate(items[0]);
+
+        return {
+            date,
+            reps:items.reduce((s,r)=>s+getNumber(r.reps),0),
+            sets:items.reduce((s,r)=>s+getNumber(r.sets),0)
+        };
+    });
+
+    const bestReps = daily.reduce((a,b)=>b.reps>a.reps?b:a);
+    const bestSets = daily.reduce((a,b)=>b.sets>a.sets?b:a);
+
+    document.getElementById("bestReps").textContent=bestReps.reps.toLocaleString("th-TH")+" ครั้ง";
+    document.getElementById("bestSets").textContent=bestSets.sets+" เซต";
+    document.getElementById("bestRepsDate").textContent=formatShortDate(bestReps.date);
+    document.getElementById("bestSetsDate").textContent=formatShortDate(bestSets.date);
+}
+
+/* DAILY HISTORY */
+
+function renderHistory(records) {
+    const container = document.getElementById("dailyHistory");
+    const groups = groupByDay(records);
+
+    const days = Object.keys(groups).sort((a,b)=>{
+        return new Date(b).getTime()-new Date(a).getTime();
+    });
+
+    container.innerHTML = "";
+
+    if(days.length===0) {
+        container.innerHTML = `
+            <div class="empty-state">
+                <div class="emoji">🐻💤</div>
+                ยังไม่มีประวัติการออกกำลังกายในเดือนนี้<br>
+                เมื่อมีข้อมูลการฝึก ประวัติจะปรากฏที่นี่
+            </div>`;
+        return;
+    }
+
+    days.forEach((key,index)=>{
+        const items = groups[key].sort((a,b)=>{
+            return getDate(b)-getDate(a);
+        });
+
+        const date = getDate(items[0]);
+        const minutes = items.reduce((s,r)=>s+getNumber(r.duration),0);
+        const reps = items.reduce((s,r)=>s+getNumber(r.reps),0);
+        const sets = items.reduce((s,r)=>s+getNumber(r.sets),0);
+
+        const card = document.createElement("div");
+        card.className = "day-card";
+
+        const sessions = items.map(r=>`
+            <div class="session">
+                <strong>🏋️ ${escapeHTML(r.machine || "ไม่ระบุเครื่อง")}</strong>
+                <p>${getNumber(r.sets)} เซต · ${getNumber(r.reps)} ครั้ง · ${getNumber(r.duration)} นาที</p>
+            </div>
+        `).join("");
+
+        card.innerHTML = `
+            <button class="day-toggle">
+                <span>
+                    <strong>${formatDate(date)}</strong><br>
+                    <span class="small-text">${items.length} รายการ · ${sets} เซต · ${reps} ครั้ง</span>
+                </span>
+                <span>⏱ ${minutes} นาที　⌄</span>
+            </button>
+            <div class="day-detail">${sessions}</div>
+        `;
+
+        card.querySelector(".day-toggle").addEventListener("click",()=>{
+            card.classList.toggle("open");
+        });
+
+        if(index===0) card.classList.add("open");
+
+        container.appendChild(card);
+    });
+}
+
+function escapeHTML(value) {
+    return String(value).replace(/[&<>"']/g,char=>({
+        "&":"&amp;",
+        "<":"&lt;",
+        ">":"&gt;",
+        '"':"&quot;",
+        "'":"&#39;"
+    }[char]));
+}
+
+/* MAIN RENDER */
+
+function render() {
+
+    document.getElementById("monthLabel").textContent =
+        thaiMonths[selectedMonth.getMonth()]+" "+selectedMonth.getFullYear();
+
+    // อัปเดตสถานะปุ่มเปลี่ยนเดือน
+    updateMonthButtons();
+
+    const records = getMonthRecords(selectedMonth);
+
+    renderSummary(records);
+    renderMessage(records);
+    renderWeekly(records);
+    renderCalendar(records);
+    renderMuscles(records);
+    renderBest(records);
+    renderHistory(records);
+}
+
+function logout() {
+    if(confirm("ต้องการออกจากระบบหรือไม่?")) {
+        window.location.href="index.html";
+    }
+}
+
+render();
+</script>
+</body>
+</html>

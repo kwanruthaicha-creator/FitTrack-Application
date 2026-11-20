@@ -1,0 +1,847 @@
+
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FitTrack | Statistics</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+:root {
+    --bg:#0b1428;
+    --card:#14223c;
+    --card2:#1b2d4c;
+    --blue:#3478f6;
+    --text:#f2f6ff;
+    --muted:#9aabc6;
+    --border:#293c5d;
+}
+
+* {
+    box-sizing:border-box;
+}
+
+body {
+    margin:0;
+    background:var(--bg);
+    color:var(--text);
+    font-family:'Kanit',sans-serif;
+    padding-bottom:90px;
+}
+
+header {
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:18px 5%;
+    border-bottom:1px solid var(--border);
+    gap:12px;
+}
+
+.logo {
+    font-size:22px;
+    font-weight:700;
+    color:white;
+}
+
+.logo span {
+    color:#4b91ff;
+}
+
+.header-right {
+    display:flex;
+    align-items:center;
+    gap:12px;
+}
+
+.status {
+    font-size:12px;
+    color:#f5bd58;
+    background:#342d21;
+    padding:7px 12px;
+    border-radius:20px;
+}
+
+.logout {
+    background:#263957;
+    color:white;
+    border:0;
+    padding:8px 14px;
+    border-radius:9px;
+    font-family:inherit;
+    cursor:pointer;
+}
+
+.container {
+    width:92%;
+    max-width:1100px;
+    margin:30px auto;
+}
+
+h1 {
+    font-size:27px;
+    margin:0 0 5px;
+}
+
+.subtitle {
+    color:var(--muted);
+    margin:0 0 25px;
+    font-size:14px;
+}
+
+/* CATEGORY OVERVIEW */
+
+.section-title {
+    font-size:18px;
+    margin:28px 0 14px;
+}
+
+.overview {
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:12px;
+}
+
+.overview-card {
+    background:var(--card);
+    border:1px solid var(--border);
+    border-radius:14px;
+    padding:16px;
+}
+
+.overview-card small {
+    color:var(--muted);
+}
+
+.overview-card h2 {
+    font-size:25px;
+    margin:8px 0 2px;
+    color:#69a3ff;
+}
+
+.overview-card p {
+    color:var(--muted);
+    font-size:12px;
+    margin:0;
+}
+
+/* CATEGORY SELECTOR */
+
+.selector-area {
+    margin-top:32px;
+}
+
+.selector-label {
+    color:var(--muted);
+    font-size:14px;
+    margin-bottom:13px;
+}
+
+.category-selector {
+    display:flex;
+    gap:14px;
+    overflow-x:auto;
+    padding:7px 4px 15px;
+    scrollbar-width:thin;
+    scroll-behavior:smooth;
+    -webkit-overflow-scrolling:touch;
+}
+
+.category-btn {
+    flex:0 0 auto;
+    min-width:175px;
+    min-height:76px;
+    border:1px solid var(--border);
+    background:var(--card);
+    color:#dce7fa;
+    padding:15px 18px;
+    border-radius:15px;
+    font-family:inherit;
+    text-align:left;
+    cursor:pointer;
+    transition:.2s;
+}
+
+.category-btn:hover {
+    background:var(--card2);
+    transform:translateY(-2px);
+}
+
+.category-btn.active {
+    background:var(--blue);
+    border-color:var(--blue);
+    color:white;
+    box-shadow:0 5px 18px #3478f644;
+}
+
+.category-btn strong {
+    display:block;
+    font-size:16px;
+    font-weight:500;
+}
+
+.category-btn small {
+    display:block;
+    margin-top:5px;
+    font-size:13px;
+    opacity:.85;
+}
+
+/* DETAIL SECTION */
+
+.detail-section {
+    display:none;
+    margin-top:28px;
+}
+
+.detail-section.show {
+    display:block;
+}
+
+.detail-heading {
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    flex-wrap:wrap;
+    gap:10px;
+    margin-bottom:16px;
+}
+
+.detail-heading h2 {
+    margin:0;
+    font-size:22px;
+}
+
+.machine-count {
+    color:#9fc2ff;
+    background:#1b3458;
+    padding:6px 12px;
+    border-radius:20px;
+    font-size:12px;
+}
+
+.machine-grid {
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:14px;
+}
+
+.machine-card {
+    background:var(--card);
+    border:1px solid var(--border);
+    border-radius:16px;
+    padding:18px;
+}
+
+.machine-card h3 {
+    margin:0 0 5px;
+    font-size:17px;
+}
+
+.machine-subtitle {
+    font-size:12px;
+    color:var(--muted);
+    margin-bottom:15px;
+}
+
+.stats-grid {
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:8px;
+}
+
+.stat-box {
+    background:#1b2d4c;
+    padding:11px 7px;
+    border-radius:10px;
+    text-align:center;
+}
+
+.stat-box strong {
+    display:block;
+    color:#73aaff;
+    font-size:19px;
+}
+
+.stat-box small {
+    color:var(--muted);
+    font-size:11px;
+}
+
+.rank-box {
+    margin-top:14px;
+    padding:13px;
+    background:#1b2d4c;
+    border-radius:11px;
+}
+
+.rank-top {
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:8px;
+}
+
+.rank-name {
+    color:#8fbcff;
+    font-weight:600;
+}
+
+.rank-desc {
+    color:var(--muted);
+    font-size:12px;
+    margin-top:5px;
+}
+
+.rank-progress {
+    height:7px;
+    background:#0b1428;
+    border-radius:10px;
+    overflow:hidden;
+    margin-top:10px;
+}
+
+.rank-progress div {
+    height:100%;
+    background:linear-gradient(90deg,#3478f6,#61b5ff);
+    border-radius:10px;
+}
+
+.consistency {
+    margin-top:12px;
+    font-size:12px;
+    color:var(--muted);
+}
+
+.empty {
+    background:var(--card);
+    border:1px dashed var(--border);
+    border-radius:14px;
+    padding:25px;
+    text-align:center;
+    color:var(--muted);
+    font-size:14px;
+}
+
+.note {
+    color:var(--muted);
+    font-size:12px;
+    line-height:1.7;
+    margin-top:20px;
+}
+
+/* NAVIGATION */
+
+.nav {
+    position:fixed;
+    bottom:0;
+    left:0;
+    width:100%;
+    display:flex;
+    justify-content:center;
+    gap:30px;
+    padding:13px 10px;
+    background:#101d35;
+    border-top:1px solid var(--border);
+    z-index:100;
+}
+
+.nav a {
+    color:#9aabc6;
+    text-decoration:none;
+    font-size:13px;
+}
+
+.nav a.active {
+    color:#68a5ff;
+    font-weight:600;
+}
+
+/* RESPONSIVE */
+
+@media(max-width:700px) {
+    .overview {
+        grid-template-columns:repeat(2,1fr);
+    }
+
+    .machine-grid {
+        grid-template-columns:1fr;
+    }
+
+    header {
+        padding:15px 4%;
+    }
+
+    .logo {
+        font-size:19px;
+    }
+
+    .status {
+        font-size:10px;
+        padding:6px 9px;
+    }
+
+    .logout {
+        padding:7px 10px;
+        font-size:12px;
+    }
+
+    .container {
+        margin-top:23px;
+    }
+
+    h1 {
+        font-size:23px;
+    }
+
+    .category-btn {
+        min-width:165px;
+        min-height:74px;
+        padding:14px 16px;
+    }
+
+    .category-btn strong {
+        font-size:15px;
+    }
+
+    .category-btn small {
+        font-size:12px;
+    }
+
+    .nav {
+        gap:0;
+        justify-content:space-around;
+    }
+
+    .nav a {
+        font-size:11px;
+    }
+}
+
+@media(max-width:380px) {
+    .overview-card {
+        padding:12px;
+    }
+
+    .overview-card h2 {
+        font-size:21px;
+    }
+
+    .stats-grid {
+        gap:5px;
+    }
+
+    .stat-box strong {
+        font-size:16px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+    <div class="logo">FIT<span>TRACK</span></div>
+
+    <div class="header-right">
+        <div class="status">● ยังไม่เชื่อมต่อ</div>
+        <button class="logout" onclick="logout()">ออกจากระบบ</button>
+    </div>
+</header>
+
+<main class="container">
+
+    <h1>สถิติการออกกำลังกาย</h1>
+    <p class="subtitle">ดูการใช้งานเครื่องและพัฒนาการออกกำลังกายของคุณ</p>
+
+    <h2 class="section-title">ประเภทเครื่องที่ใช้งานบ่อย</h2>
+
+    <div class="overview" id="overview"></div>
+
+    <div class="selector-area">
+        <h2 class="section-title">เลือกประเภทเครื่องออกกำลังกาย</h2>
+
+        <div class="selector-label">
+            เลือกประเภทเพื่อดูสถิติและระดับความชำนาญ
+        </div>
+
+        <div class="category-selector" id="categorySelector"></div>
+    </div>
+
+    <section class="detail-section" id="detailSection">
+
+        <div class="detail-heading">
+            <h2 id="detailTitle"></h2>
+            <span class="machine-count" id="machineCount"></span>
+        </div>
+
+        <div class="machine-grid" id="machineGrid"></div>
+
+        <div class="note">
+            * ระดับความชำนาญประเมินจากจำนวนครั้งและจำนวนเซตสะสม
+            ส่วนระดับ Master ต้องผ่านเงื่อนไขความสม่ำเสมอเพิ่มเติมด้วย
+        </div>
+
+    </section>
+
+</main>
+
+<nav class="nav">
+    <a href="dashboard.html">⌂ หน้าหลัก</a>
+    <a href="statistics.html" class="active">▦ สถิติ</a>
+    <a href="history.html">▣ ประวัติ</a>
+    <a href="analysis.html">◈ วิเคราะห์</a>
+</nav>
+
+<script>
+
+// MACHINE CATEGORIES
+
+const categories = {
+    "Weight Stack": [
+        "Chest Press",
+        "Lat Pulldown",
+        "Seated Row",
+        "Shoulder Press",
+        "Leg Extension",
+        "Leg Curl"
+    ],
+
+    "Plate-Loaded": [
+        "Leg Press",
+        "Hack Squat",
+        "Chest Press Machine",
+        "Shoulder Press Machine"
+    ],
+
+    "Barbell / Smith": [
+        "Smith Squat",
+        "Smith Bench Press",
+        "Barbell Squat",
+        "Barbell Bench Press"
+    ],
+
+    "Cable Machine": [
+        "Cable Row",
+        "Triceps Pushdown",
+        "Cable Fly",
+        "Cable Biceps Curl"
+    ]
+};
+
+// LOAD WORKOUT DATA
+
+function loadWorkouts() {
+    try {
+        return JSON.parse(
+            localStorage.getItem("fittrackWorkouts")
+        ) || [];
+    } catch {
+        return [];
+    }
+}
+
+const workouts = loadWorkouts();
+
+function getMachineData(machine) {
+    const records = workouts.filter(
+        item => item.machine === machine
+    );
+
+    return {
+        sessions: records.length,
+
+        reps: records.reduce(
+            (sum, item) => sum + Number(item.reps || 0),
+            0
+        ),
+
+        sets: records.reduce(
+            (sum, item) => sum + Number(item.sets || 0),
+            0
+        ),
+
+        duration: records.reduce(
+            (sum, item) => sum + Number(item.duration || 0),
+            0
+        ),
+
+        records: records
+    };
+}
+
+// CATEGORY OVERVIEW
+
+function renderOverview() {
+    const overview = document.getElementById("overview");
+
+    overview.innerHTML = "";
+
+    Object.keys(categories).forEach(category => {
+
+        let totalSessions = 0;
+
+        categories[category].forEach(machine => {
+            totalSessions += getMachineData(machine).sessions;
+        });
+
+        overview.innerHTML += `
+            <div class="overview-card">
+                <small>${category}</small>
+                <h2>${totalSessions.toLocaleString()}</h2>
+                <p>ครั้งที่ใช้งาน</p>
+            </div>
+        `;
+    });
+}
+
+// CATEGORY BUTTONS
+
+function renderCategoryButtons() {
+    const selector = document.getElementById("categorySelector");
+
+    selector.innerHTML = "";
+
+    Object.keys(categories).forEach(category => {
+
+        const button = document.createElement("button");
+
+        button.className = "category-btn";
+
+        button.innerHTML = `
+            <strong>${category}</strong>
+            <small>${categories[category].length} เครื่อง</small>
+        `;
+
+        button.onclick = () => selectCategory(category, button);
+
+        selector.appendChild(button);
+    });
+}
+
+// CONSISTENCY CHECK
+
+function isConsistent(records) {
+
+    const weeks = new Set();
+
+    records.forEach(record => {
+
+        if (!record.date) return;
+
+        const date = new Date(record.date);
+
+        if (isNaN(date.getTime())) return;
+
+        const day = date.getDay();
+
+        date.setDate(date.getDate() - day);
+
+        const weekKey =
+            date.getFullYear() + "-" +
+            date.getMonth() + "-" +
+            date.getDate();
+
+        weeks.add(weekKey);
+    });
+
+    const now = new Date();
+
+    for (let i = 0; i < 4; i++) {
+
+        const date = new Date(now);
+
+        date.setDate(date.getDate() - (date.getDay() + (i * 7)));
+
+        const key =
+            date.getFullYear() + "-" +
+            date.getMonth() + "-" +
+            date.getDate();
+
+        if (!weeks.has(key)) return false;
+    }
+
+    return true;
+}
+
+// RANK SYSTEM
+
+function getRank(reps, sets, machine, records) {
+
+    const compoundCategories = [
+        "Plate-Loaded",
+        "Barbell / Smith"
+    ];
+
+    const compound = compoundCategories.some(category =>
+        categories[category].includes(machine)
+    );
+
+    const masterReps = compound ? 3000 : 5000;
+
+    const consistent = isConsistent(records);
+
+    if (
+        reps >= masterReps &&
+        sets >= 500 &&
+        consistent
+    ) {
+        return {
+            name:"5. Master / Expert",
+            description:"ผู้เชี่ยวชาญ มีสถิติสะสมสูงและฝึกอย่างสม่ำเสมอ",
+            progress:100
+        };
+    }
+
+    if (reps >= 2001 && sets >= 201) {
+        return {
+            name:"4. Advanced",
+            description:"ระดับสูง มีประสบการณ์ในการใช้เครื่อง",
+            progress:85
+        };
+    }
+
+    if (reps >= 601 && sets >= 61) {
+        return {
+            name:"3. Intermediate",
+            description:"ระดับกลาง เริ่มคุ้นเคยกับการใช้งานเครื่อง",
+            progress:65
+        };
+    }
+
+    if (reps >= 151 && sets >= 16) {
+        return {
+            name:"2. Novice",
+            description:"ระดับผู้ฝึกหัด เริ่มมีความคุ้นเคยกับเครื่อง",
+            progress:40
+        };
+    }
+
+    if (reps >= 1 && sets >= 1) {
+        return {
+            name:"1. Beginner",
+            description:"ผู้เริ่มต้น กำลังเรียนรู้การใช้งานเครื่อง",
+            progress:20
+        };
+    }
+
+    return {
+        name:"ยังไม่มีระดับ",
+        description:"เริ่มบันทึกการออกกำลังกายเพื่อสะสมระดับ",
+        progress:0
+    };
+}
+
+// SHOW SELECTED CATEGORY
+
+function selectCategory(category, selectedButton) {
+
+    document.querySelectorAll(".category-btn").forEach(btn => {
+        btn.classList.remove("active");
+    });
+
+    selectedButton.classList.add("active");
+
+    const detail = document.getElementById("detailSection");
+
+    detail.classList.add("show");
+
+    document.getElementById("detailTitle").textContent =
+        "สถิติ " + category;
+
+    document.getElementById("machineCount").textContent =
+        categories[category].length + " เครื่อง";
+
+    const grid = document.getElementById("machineGrid");
+
+    grid.innerHTML = "";
+
+    categories[category].forEach(machine => {
+
+        const data = getMachineData(machine);
+
+        const rank = getRank(
+            data.reps,
+            data.sets,
+            machine,
+            data.records
+        );
+
+        const consistency = isConsistent(data.records);
+
+        grid.innerHTML += `
+            <div class="machine-card">
+
+                <h3>${machine}</h3>
+
+                <div class="machine-subtitle">
+                    จำนวนครั้งที่ใช้งาน ${data.sessions} ครั้ง
+                </div>
+
+                <div class="stats-grid">
+
+                    <div class="stat-box">
+                        <strong>${data.reps.toLocaleString()}</strong>
+                        <small>ครั้งสะสม</small>
+                    </div>
+
+                    <div class="stat-box">
+                        <strong>${data.sets.toLocaleString()}</strong>
+                        <small>เซตสะสม</small>
+                    </div>
+
+                    <div class="stat-box">
+                        <strong>${data.duration.toLocaleString()}</strong>
+                        <small>นาที</small>
+                    </div>
+
+                </div>
+
+                <div class="rank-box">
+
+                    <div class="rank-top">
+                        <span>ระดับความชำนาญ</span>
+                        <span class="rank-name">${rank.name}</span>
+                    </div>
+
+                    <div class="rank-progress">
+                        <div style="width:${rank.progress}%"></div>
+                    </div>
+
+                    <div class="rank-desc">
+                        ${rank.description}
+                    </div>
+
+                </div>
+
+                <div class="consistency">
+                    ความสม่ำเสมอ:
+                    ${consistency
+                        ? "ผ่านเกณฑ์ 4 สัปดาห์ล่าสุด"
+                        : "ยังไม่ผ่านเกณฑ์ 4 สัปดาห์ล่าสุด"}
+                </div>
+
+            </div>
+        `;
+    });
+}
+
+// LOGOUT
+
+function logout() {
+    if (confirm("ต้องการออกจากระบบหรือไม่?")) {
+        window.location.href = "index.html";
+    }
+}
+
+// START
+
+renderOverview();
+renderCategoryButtons();
+
+</script>
+
+</body>
+</html>

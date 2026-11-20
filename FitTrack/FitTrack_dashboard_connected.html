@@ -1,0 +1,1338 @@
+```html
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FitTrack | Dashboard</title>
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700&display=swap');
+
+:root {
+    --bg:#081321;
+    --panel:#111f32;
+    --panel2:#172941;
+    --blue:#268cff;
+    --light:#69b7ff;
+    --text:#f4f7fc;
+    --muted:#96a9c1;
+    --border:#293e59;
+    --yellow:#ffc857;
+    --green:#36d69a;
+    --red:#ff8c96;
+}
+
+* {box-sizing:border-box}
+
+html {scroll-behavior:smooth;scroll-padding-top:20px}
+
+body {
+    margin:0;
+    background:var(--bg);
+    color:var(--text);
+    font-family:'Kanit',sans-serif;
+    padding-bottom:100px;
+}
+
+button {font-family:inherit;cursor:pointer}
+
+.app {
+    width:100%;
+    max-width:1450px;
+    margin:auto;
+    min-height:100vh;
+}
+
+.header {
+    padding:18px 4%;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:12px;
+    border-bottom:1px solid var(--border);
+}
+
+.logo {
+    font-size:27px;
+    font-weight:700;
+    color:var(--light);
+}
+
+.logo span {color:white}
+
+.header-right {
+    display:flex;
+    align-items:center;
+    gap:10px;
+}
+
+.connection {
+    background:var(--panel);
+    border:1px solid var(--border);
+    border-radius:30px;
+    padding:8px 13px;
+    font-size:12px;
+    color:var(--yellow);
+}
+
+.logout {
+    border:1px solid #e35c6a;
+    background:transparent;
+    color:#ff9299;
+    padding:8px 13px;
+    border-radius:9px;
+}
+
+main {padding:28px 4% 115px}
+
+.welcome {margin-bottom:18px}
+
+.welcome h1 {
+    font-size:25px;
+    margin:0;
+}
+
+.welcome p {
+    color:var(--muted);
+    margin:5px 0 0;
+    font-size:14px;
+}
+
+/* DEMO MODE */
+
+.demo-banner {
+    display:flex;
+    align-items:flex-start;
+    gap:13px;
+    padding:16px;
+    margin-bottom:22px;
+    border:1px solid #856b32;
+    background:linear-gradient(120deg,#382f1c,#252a30);
+    border-radius:13px;
+}
+
+.demo-banner-icon {font-size:27px}
+
+.demo-banner strong {
+    color:#ffd36a;
+    font-size:13px;
+}
+
+.demo-banner p {
+    color:#e2d5b5;
+    font-size:12px;
+    line-height:1.7;
+    margin:4px 0 0;
+}
+
+.demo-tag {
+    display:inline-block;
+    color:#ffd36a;
+    background:#42351b;
+    border:1px solid #725c2e;
+    border-radius:6px;
+    font-size:11px;
+    padding:4px 8px;
+}
+
+.section {
+    background:var(--panel);
+    border:1px solid var(--border);
+    border-radius:17px;
+    padding:22px;
+    margin-bottom:19px;
+}
+
+.section-title {margin-bottom:17px}
+
+.section-title h2 {
+    margin:0;
+    font-size:19px;
+}
+
+.section-title p {
+    color:var(--muted);
+    font-size:13px;
+    margin:4px 0 0;
+}
+
+.hidden {display:none!important}
+
+/* BOTTOM NAVIGATION */
+
+.nav {
+    position:fixed;
+    bottom:12px;
+    left:50%;
+    transform:translateX(-50%);
+    width:calc(100% - 32px);
+    max-width:650px;
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:6px;
+    padding:8px;
+    background:#101e30;
+    border:1px solid rgba(255,255,255,0.1);
+    border-radius:18px;
+    box-shadow:0 -5px 25px rgba(0,0,0,.25);
+    z-index:1000;
+}
+
+.nav a {
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    text-decoration:none;
+    color:#b6c6d9;
+    padding:10px 4px;
+    border-radius:12px;
+    font-size:12px;
+    text-align:center;
+    white-space:nowrap;
+    transition:.2s;
+}
+
+.nav a.active {
+    color:#8ccbff;
+    background:#173b64;
+}
+
+/* CATEGORY */
+
+.category-grid {
+    display:grid;
+    grid-template-columns:repeat(4,minmax(0,1fr));
+    gap:13px;
+}
+
+.category-card {
+    background:#0b192a;
+    border:1px solid var(--border);
+    border-radius:13px;
+    padding:0;
+    overflow:hidden;
+    color:white;
+    text-align:left;
+    transition:.2s;
+}
+
+.category-card:hover,
+.category-card.selected {
+    border:2px solid var(--blue);
+    transform:translateY(-2px);
+}
+
+.category-card img {
+    display:block;
+    width:100%;
+    height:145px;
+    object-fit:cover;
+}
+
+.category-info {padding:12px}
+
+.category-info strong {
+    display:block;
+    font-size:14px;
+}
+
+.category-info small {
+    color:var(--muted);
+    font-size:12px;
+}
+
+/* MACHINE */
+
+.machine-grid {
+    display:grid;
+    grid-template-columns:repeat(3,minmax(0,1fr));
+    gap:12px;
+}
+
+.machine-card {
+    background:#0b192a;
+    border:1px solid var(--border);
+    border-radius:12px;
+    color:white;
+    padding:13px;
+    text-align:left;
+    display:flex;
+    align-items:center;
+    gap:12px;
+    min-width:0;
+}
+
+.machine-card:hover,
+.machine-card.selected {
+    border-color:var(--blue);
+    background:#142d4a;
+}
+
+.machine-icon {
+    width:43px;
+    height:43px;
+    flex-shrink:0;
+    border-radius:10px;
+    background:#193b60;
+    display:grid;
+    place-items:center;
+    font-size:22px;
+}
+
+.machine-card strong {
+    font-size:13px;
+    display:block;
+}
+
+.machine-card small {
+    font-size:11px;
+    color:var(--muted);
+}
+
+.back-button {
+    border:1px solid var(--border);
+    background:transparent;
+    color:var(--light);
+    padding:8px 13px;
+    border-radius:8px;
+    margin-bottom:15px;
+}
+
+.selection-label {
+    color:var(--light);
+    font-size:12px;
+    margin-bottom:8px;
+}
+
+/* DETAIL */
+
+.detail-header {
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:12px;
+    flex-wrap:wrap;
+    margin-bottom:18px;
+}
+
+.detail-header h2 {
+    margin:0;
+    font-size:22px;
+}
+
+.change-button {
+    border:1px solid var(--blue);
+    color:var(--light);
+    background:#102b48;
+    border-radius:9px;
+    padding:9px 13px;
+}
+
+.detail-grid {
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:15px;
+}
+
+.panel {
+    background:#0b192a;
+    border:1px solid var(--border);
+    border-radius:13px;
+    padding:16px;
+    min-width:0;
+}
+
+.panel h3 {
+    font-size:16px;
+    margin:0 0 13px;
+}
+
+.muscle-box {
+    display:flex;
+    gap:14px;
+    align-items:center;
+    background:var(--panel2);
+    padding:12px;
+    border-radius:11px;
+}
+
+.muscle-box img {
+    width:110px;
+    height:130px;
+    object-fit:cover;
+    border-radius:9px;
+}
+
+.muscle-box p {
+    font-size:13px;
+    color:#d4e2f2;
+    line-height:1.7;
+}
+
+.metrics {
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:9px;
+    margin-top:13px;
+}
+
+.metric {
+    background:var(--panel2);
+    border-radius:10px;
+    padding:12px 5px;
+    text-align:center;
+}
+
+.metric strong {
+    display:block;
+    color:var(--light);
+    font-size:14px;
+}
+
+.metric small {
+    color:var(--muted);
+    font-size:11px;
+}
+
+.note {
+    background:#102d4b;
+    padding:12px;
+    border-radius:10px;
+    margin-top:12px;
+    color:#d1e8ff;
+    font-size:13px;
+    line-height:1.8;
+}
+
+.note p {margin:4px 0 0}
+
+/* INSTALLATION */
+
+.install-status {
+    display:inline-block;
+    font-size:11px;
+    padding:5px 9px;
+    border-radius:6px;
+    background:#42351b;
+    color:var(--yellow);
+    margin-bottom:12px;
+}
+
+.install-diagram {
+    background:#14263d;
+    border:1px solid var(--border);
+    border-radius:12px;
+    min-height:175px;
+    padding:15px;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+    text-align:center;
+    gap:8px;
+}
+
+.diagram-icon {font-size:48px}
+.diagram-main {font-size:14px;font-weight:600}
+.diagram-label {color:var(--light);font-size:12px}
+.diagram-caption {color:var(--muted);font-size:11px}
+
+.install-list,
+.avoid-list {
+    padding-left:20px;
+    margin:8px 0 0;
+    font-size:13px;
+    line-height:1.9;
+}
+
+.install-list {color:#d3e1f0}
+.avoid-list {color:#ffd1d4}
+
+.warning-box {
+    background:#38212b;
+    border:1px solid #70404c;
+    color:#ffd5d9;
+    border-radius:10px;
+    padding:12px;
+    font-size:12px;
+    line-height:1.8;
+    margin-top:13px;
+}
+
+/* ACCORDION */
+
+.accordion {
+    margin-top:14px;
+    border:1px solid var(--border);
+    border-radius:11px;
+    overflow:hidden;
+}
+
+.accordion summary {
+    padding:14px;
+    cursor:pointer;
+    background:#14263d;
+    font-size:14px;
+    font-weight:500;
+}
+
+.accordion-content {
+    padding:13px 16px;
+    font-size:13px;
+    color:#d0deee;
+    line-height:1.9;
+    background:#0b192a;
+}
+
+.accordion-content p {margin:3px 0}
+
+/* DEVICE */
+
+.device-box {
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:12px;
+    background:var(--panel2);
+    padding:15px;
+    border-radius:11px;
+    margin-top:15px;
+}
+
+.device-box strong {
+    color:var(--yellow);
+    font-size:13px;
+}
+
+.demo {
+    display:inline-block;
+    color:var(--yellow);
+    background:#42351b;
+    border-radius:6px;
+    font-size:11px;
+    padding:4px 8px;
+}
+
+/* MACHINE STATISTICS */
+
+.machine-stat-heading {
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:10px;
+    flex-wrap:wrap;
+    margin-bottom:15px;
+}
+
+.stats-machine-name {
+    font-size:20px;
+    color:var(--light);
+    font-weight:600;
+    margin-top:5px;
+}
+
+.summary-grid {
+    display:grid;
+    grid-template-columns:repeat(5,1fr);
+    gap:10px;
+}
+
+.summary-item {
+    background:#0b192a;
+    border:1px solid var(--border);
+    border-radius:11px;
+    text-align:center;
+    padding:15px 5px;
+}
+
+.summary-item strong {
+    display:block;
+    color:var(--light);
+    font-size:21px;
+}
+
+.summary-item small {
+    color:var(--muted);
+    font-size:11px;
+}
+
+.empty-stat {
+    color:var(--muted);
+    font-size:13px;
+    line-height:1.8;
+    margin-top:14px;
+}
+
+/* FOOTER */
+
+.footer {
+    text-align:center;
+    color:#71839a;
+    font-size:12px;
+    padding:20px 20px 105px;
+}
+
+/* RESPONSIVE */
+
+@media(max-width:900px) {
+    .category-grid {grid-template-columns:repeat(2,minmax(0,1fr))}
+    .machine-grid {grid-template-columns:repeat(2,minmax(0,1fr))}
+    .summary-grid {grid-template-columns:repeat(3,1fr)}
+}
+
+@media(max-width:600px) {
+    .header {padding:14px}
+    .logo {font-size:23px}
+    .connection {font-size:10px;padding:7px 9px}
+    .logout {padding:7px 9px;font-size:11px}
+    main {padding:18px 13px 105px}
+    .welcome h1 {font-size:21px}
+    .section {padding:15px;border-radius:14px}
+    .section-title h2 {font-size:17px}
+    .category-grid {grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}
+    .category-card img {height:105px}
+    .category-info {padding:9px}
+    .category-info strong {font-size:12px}
+    .category-info small {font-size:10px}
+    .machine-grid {grid-template-columns:1fr;gap:9px}
+    .machine-card {padding:11px}
+    .detail-grid {grid-template-columns:1fr}
+    .metrics {grid-template-columns:repeat(2,1fr)}
+    .muscle-box img {width:90px;height:115px}
+    .summary-grid {grid-template-columns:repeat(2,1fr)}
+    .detail-header h2 {font-size:19px}
+    .install-diagram {min-height:150px}
+    .nav {padding:9px 7px;gap:4px}
+    .nav a {font-size:11px;padding:10px 12px}
+}
+</style>
+</head>
+
+<body>
+<div class="app">
+
+<header class="header">
+    <div class="logo">〰 <span>Fit</span>Track</div>
+    <div class="header-right">
+        <div class="connection" id="connectionStatus">● กำลังตรวจสอบ API...</div>
+        <button class="logout" onclick="logout()">ออกจากระบบ</button>
+    </div>
+</header>
+
+<main id="home">
+
+<div class="welcome">
+    <h1>สวัสดี ยินดีต้อนรับสู่ FitTrack 👋</h1>
+    <p>เลือกเครื่องออกกำลังกายเพื่อเริ่มต้นใช้งาน</p>
+</div>
+
+<!-- DEMO MODE NOTICE -->
+<div class="demo-banner">
+    <div class="demo-banner-icon">📊</div>
+    <div>
+        <strong>DEMO MODE — ตัวอย่างการแสดงผล</strong>
+        <p>ข้อมูลที่แสดงในหน้านี้เป็นข้อมูลจำลองเพื่อสาธิตการทำงานของระบบ ไม่ได้มาจากการอ่านค่าของอุปกรณ์ ESP32 จริง</p>
+    </div>
+</div>
+
+<!-- STEP 1 -->
+<section class="section" id="categorySection">
+    <div class="section-title">
+        <h2>01. เลือกหมวดหมู่เครื่องออกกำลังกาย</h2>
+        <p>เลือกหมวดหมู่ที่ต้องการเพื่อดูเครื่องในหมวดนั้น</p>
+    </div>
+    <div class="category-grid" id="categoryGrid"></div>
+</section>
+
+<!-- STEP 2 -->
+<section class="section hidden" id="machineSection">
+    <button class="back-button" onclick="backToCategories()">← กลับไปเลือกหมวดหมู่</button>
+    <div class="section-title">
+        <div class="selection-label" id="selectedCategory"></div>
+        <h2>02. เลือกเครื่องออกกำลังกาย</h2>
+        <p>เลือกเครื่องที่ต้องการเพื่อดูรายละเอียด</p>
+    </div>
+    <div class="machine-grid" id="machineGrid"></div>
+</section>
+
+<!-- STEP 3 -->
+<section class="section hidden" id="detailSection">
+
+    <button class="back-button" onclick="backToMachines()">← กลับไปเลือกเครื่อง</button>
+
+    <div class="detail-header">
+        <div>
+            <div class="selection-label">03. รายละเอียดเครื่องที่เลือก</div>
+            <h2 id="detailName"></h2>
+        </div>
+        <button class="change-button" onclick="backToMachines()">เปลี่ยนเครื่อง</button>
+    </div>
+
+    <div class="detail-grid">
+
+        <div class="panel">
+            <h3>💪 กล้ามเนื้อที่ใช้งาน</h3>
+
+            <div class="muscle-box">
+                <img src="https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=400" alt="ภาพประกอบฟิตเนส">
+                <p id="muscle"></p>
+            </div>
+
+            <div class="metrics">
+                <div class="metric"><strong id="reps"></strong><small>จำนวนครั้ง</small></div>
+                <div class="metric"><strong id="sets"></strong><small>จำนวนเซ็ต</small></div>
+                <div class="metric"><strong id="rest"></strong><small>เวลาพัก</small></div>
+                <div class="metric"><strong id="time"></strong><small>เวลาโดยประมาณ</small></div>
+            </div>
+
+            <div class="note">
+                <strong>🔄 วิธีนับจำนวนครั้ง</strong>
+                <p id="counting"></p>
+            </div>
+        </div>
+
+        <div class="panel">
+            <h3>📍 ตำแหน่งติดตั้ง FitTrack</h3>
+
+            <span class="install-status" id="installStatus"></span>
+
+            <div class="install-diagram">
+                <div class="diagram-icon" id="diagramIcon">📍</div>
+                <div class="diagram-main" id="placementTitle"></div>
+                <div class="diagram-label" id="placementShort"></div>
+                <div class="diagram-caption">ภาพแสดงแนวคิดตำแหน่งติดตั้ง ไม่ใช่ภาพยืนยันเครื่องรุ่นจริง</div>
+            </div>
+
+            <h3 style="margin-top:17px">จุดติดตั้งที่ควรตรวจสอบ</h3>
+            <ul class="install-list" id="placementList"></ul>
+
+            <h3 style="margin-top:17px">จุดที่ควรหลีกเลี่ยง</h3>
+            <ul class="avoid-list" id="avoidList"></ul>
+
+            <div class="warning-box">
+                ⚠️ ตำแหน่งติดตั้งนี้เป็นแนวทางตามลักษณะเครื่อง ต้องตรวจสอบรุ่นจริง ความแข็งแรงของจุดยึด และทดสอบก่อนใช้งานทุกครั้ง ห้ามติดตั้งในจุดที่อาจหลุดหรือรบกวนการทำงานของเครื่อง
+            </div>
+        </div>
+
+    </div>
+
+    <div class="accordion">
+        <details open>
+            <summary>💡 คำแนะนำในการออกกำลังกาย</summary>
+            <div class="accordion-content" id="guidance"></div>
+        </details>
+    </div>
+
+    <div class="accordion">
+        <details>
+            <summary>⚠️ ข้อควรระวังในการออกกำลังกาย</summary>
+            <div class="accordion-content" id="warnings"></div>
+        </details>
+    </div>
+
+    <div style="margin-top:18px">
+        <button onclick="startSelectedWorkout()"
+            style="width:100%;background:#268cff;color:white;border:0;border-radius:10px;padding:14px;font-size:15px">
+            ▶ เริ่มออกกำลังกาย
+        </button>
+    </div>
+
+    <div class="device-box">
+        <div>
+            <strong>FitTrack Device</strong>
+            <div style="font-size:12px;color:#96a9c1;margin-top:4px">
+                ESP32-S3 + MPU6050
+            </div>
+        </div>
+        <span class="demo">รอเชื่อมต่อ</span>
+    </div>
+
+</section>
+
+<!-- MACHINE STATISTICS -->
+<section class="section" id="summary">
+    <div class="section-title">
+        <h2>📊 สถิติล่าสุดของเครื่องที่เลือก</h2>
+        <p>ตัวอย่างผลการออกกำลังกายล่าสุดแยกตามเครื่อง</p>
+    </div>
+
+    <div class="panel">
+        <div class="machine-stat-heading">
+            <div>
+                <small style="color:#96a9c1">เครื่องที่กำลังดูสถิติ</small>
+                <div class="stats-machine-name" id="latestMachineName">Chest Press</div>
+            </div>
+            <span class="demo-tag" id="latestStatus">ข้อมูลตัวอย่าง</span>
+        </div>
+
+        <div class="summary-grid">
+            <div class="summary-item">
+                <strong id="latestReps">36</strong>
+                <small>จำนวนครั้งล่าสุด</small>
+            </div>
+            <div class="summary-item">
+                <strong id="latestSets">3</strong>
+                <small>จำนวนเซ็ตล่าสุด</small>
+            </div>
+            <div class="summary-item">
+                <strong id="latestTime">15 นาที</strong>
+                <small>เวลาออกกำลังกาย</small>
+            </div>
+            <div class="summary-item">
+                <strong id="latestRest">90 วิ</strong>
+                <small>เวลาพัก</small>
+            </div>
+            <div class="summary-item">
+                <strong id="latestDate">20/11/2026</strong>
+                <small>วันที่ใช้งานล่าสุด</small>
+            </div>
+        </div>
+
+        <p class="empty-stat" id="latestMessage">
+            ข้อมูลทั้งหมดเป็นตัวอย่างสำหรับสาธิตระบบเท่านั้น
+        </p>
+    </div>
+</section>
+
+</main>
+
+<!-- BOTTOM NAVIGATION -->
+<nav class="nav">
+    <a href="dashboard.html" class="active">⌂ หน้าหลัก</a>
+    <a href="statistics.html">▦ สถิติเครื่อง</a>
+    <a href="history.html">▣ ประวัติ</a>
+    <a href="analysis.html">◈ วิเคราะห์</a>
+</nav>
+
+<footer class="footer">
+    FitTrack © 2026 | Exercise Tracking & Analysis System
+</footer>
+
+</div>
+
+<script>
+
+const categories = {
+    "Weight Stack": {
+        desc:"เครื่องแมชชีนแบบแผ่นน้ำหนัก",
+        icon:"🏋️",
+        image:"https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=600",
+        machines:["Chest Press","Lat Pulldown","Seated Row","Shoulder Press","Leg Extension","Leg Curl"]
+    },
+    "Plate-Loaded": {
+        desc:"เครื่องแมชชีนแบบใส่แผ่นน้ำหนัก",
+        icon:"⚙️",
+        image:"https://images.unsplash.com/photo-1579758629938-03607ccdbaba?w=600",
+        machines:["Leg Press","Hack Squat","Chest Press Machine","Shoulder Press Machine"]
+    },
+    "Barbell / Smith": {
+        desc:"สมิธแมชชีนและบาร์เบล",
+        icon:"🏋️",
+        image:"https://images.unsplash.com/photo-1583454110551-21f2fa2afe61?w=600",
+        machines:["Smith Squat","Smith Bench Press","Barbell Squat","Barbell Bench Press"]
+    },
+    "Cable Machine": {
+        desc:"เครื่องออกกำลังกายแบบสายเคเบิล",
+        icon:"🔗",
+        image:"https://images.unsplash.com/photo-1581009146145-b5ef050c2e1e?w=600",
+        machines:["Cable Row","Triceps Pushdown","Cable Fly","Cable Biceps Curl"]
+    }
+};
+
+const machineData = {
+
+"Chest Press": {
+muscle:"กล้ามเนื้อหน้าอก หัวไหล่ด้านหน้า และต้นแขนด้านหลัง",
+reps:"8-12", sets:"3-4", rest:"60-90 วิ", time:"12-18 นาที",
+counting:"นับ 1 ครั้งเมื่อดันมือจับออกและกลับสู่ตำแหน่งเริ่มต้น",
+placementTitle:"ชุดแผ่นน้ำหนักที่เคลื่อนที่",placementShort:"Weight Stack",icon:"📍",
+placement:["ตรวจสอบแผ่นน้ำหนักที่เคลื่อนที่ขึ้นและลงตามการออกแรง","เลือกพื้นผิวโลหะเรียบที่ไม่กีดขวางการเคลื่อนที่","ตรวจสอบแม่เหล็กและความแน่นของอุปกรณ์ก่อนทดสอบ"],
+avoid:["แผ่นน้ำหนักที่อยู่นิ่ง","รางนำทางและช่องว่างระหว่างแผ่นน้ำหนัก","แขนโยก มือจับ และบริเวณที่ผู้ใช้จับเครื่อง"],
+guidance:["นั่งให้หลังแนบพนักพิง","ดันมือจับออกอย่างควบคุม","กลับสู่ตำแหน่งเริ่มต้นอย่างช้า ๆ"],
+warnings:["ปรับเบาะให้อยู่ในตำแหน่งเหมาะสม","ไม่ใช้น้ำหนักเกินความสามารถ","ไม่ปล่อยแผ่นน้ำหนักกระแทกกัน","ตรวจสอบว่า FitTrack ไม่กีดขวางเครื่อง"]
+},
+
+"Lat Pulldown": {
+muscle:"กล้ามเนื้อหลังส่วนกว้าง หัวไหล่ด้านหลัง และแขนส่วนหน้า",
+reps:"8-12", sets:"3-4", rest:"60-90 วิ", time:"12-18 นาที",
+counting:"นับ 1 ครั้งเมื่อดึงบาร์ลงและกลับสู่ตำแหน่งเริ่มต้น",
+placementTitle:"ชุดแผ่นน้ำหนักที่เคลื่อนที่",placementShort:"Weight Stack",icon:"📍",
+placement:["ตรวจสอบชุดแผ่นน้ำหนักที่เคลื่อนที่ตามการดึงบาร์","เลือกพื้นผิวโลหะของชุดน้ำหนักที่ยึดได้มั่นคง","ทดลองการเคลื่อนที่โดยไม่มีการรบกวนสายเคเบิล"],
+avoid:["สายเคเบิลและรอก","รางนำทางของแผ่นน้ำหนัก","บาร์ดึงและบริเวณมือจับ"],
+guidance:["นั่งให้มั่นคง","ดึงบาร์ลงด้านหน้าอย่างควบคุม","ค่อย ๆ ปล่อยบาร์กลับ"],
+warnings:["ไม่โยกตัวหรือเอนหลังมากเกินไป","ไม่ดึงกระชาก","ระวังสายเคเบิลและรอก"]
+},
+
+"Seated Row": {
+muscle:"กล้ามเนื้อหลังส่วนกลาง หลังส่วนกว้าง และแขน",
+reps:"8-12", sets:"3-4", rest:"60-90 วิ", time:"12-18 นาที",
+counting:"นับ 1 ครั้งเมื่อดึงมือจับเข้าหาลำตัวและกลับสู่ตำแหน่งเริ่มต้น",
+placementTitle:"ชุดแผ่นน้ำหนักที่เคลื่อนที่",placementShort:"Weight Stack",icon:"📍",
+placement:["ตรวจสอบชุดน้ำหนักที่เคลื่อนที่เมื่อดึงมือจับ","เลือกพื้นผิวโลหะที่เคลื่อนที่ตามแรงดึง","ตรวจสอบว่าตำแหน่งยึดไม่ขัดขวางสายเคเบิล"],
+avoid:["สายเคเบิลและรอก","มือจับและส่วนที่ผู้ใช้ต้องจับ","รางเลื่อนและช่องว่างของแผ่นน้ำหนัก"],
+guidance:["นั่งให้มั่นคง","ดึงมือจับเข้าหาลำตัว","ปล่อยกลับอย่างช้า ๆ"],
+warnings:["ไม่กระชากมือจับ","ไม่เอนตัวไปด้านหลังมากเกินไป","ควบคุมหลังให้อยู่ในท่าที่เหมาะสม"]
+},
+
+"Shoulder Press": {
+muscle:"กล้ามเนื้อหัวไหล่ด้านหน้าและด้านข้าง รวมถึงต้นแขนด้านหลัง",
+reps:"8-12", sets:"3-4", rest:"60-90 วิ", time:"12-18 นาที",
+counting:"นับ 1 ครั้งเมื่อดันมือจับขึ้นและกลับสู่ตำแหน่งเริ่มต้น",
+placementTitle:"ชุดแผ่นน้ำหนักที่เคลื่อนที่",placementShort:"Weight Stack",icon:"📍",
+placement:["ตรวจสอบชุดน้ำหนักที่เคลื่อนที่ตามการดันมือจับ","เลือกพื้นผิวโลหะที่ไม่ขัดขวางแขนโยก","ทดสอบการเคลื่อนที่และความแน่นของจุดยึด"],
+avoid:["แขนโยกและจุดหมุน","มือจับและตำแหน่งจับของผู้ใช้","รางนำทางและช่องว่างของแผ่นน้ำหนัก"],
+guidance:["นั่งให้หลังแนบพนักพิง","ดันมือจับขึ้นอย่างควบคุม","ลดมือจับกลับ"],
+warnings:["ปรับเบาะให้เหมาะสม","ไม่แอ่นหลังมากเกินไป","ไม่ใช้น้ำหนักเกินความสามารถ"]
+},
+
+"Leg Extension": {
+muscle:"กล้ามเนื้อต้นขาด้านหน้า",
+reps:"8-12", sets:"3-4", rest:"60-90 วิ", time:"12-18 นาที",
+counting:"นับ 1 ครั้งเมื่อเหยียดขาและกลับสู่ตำแหน่งเริ่มต้น",
+placementTitle:"ชุดแผ่นน้ำหนักที่เคลื่อนที่",placementShort:"Weight Stack",icon:"📍",
+placement:["ตรวจสอบชุดน้ำหนักที่เคลื่อนที่ตามการเหยียดขา","เลือกพื้นผิวโลหะของชุดน้ำหนักที่ยึดได้มั่นคง","ตรวจสอบว่าการติดตั้งไม่ขัดขวางลูกกลิ้งรองขา"],
+avoid:["ลูกกลิ้งรองขาและแขนโยก","จุดหมุนของเครื่อง","รางนำทางและช่องว่างของแผ่นน้ำหนัก"],
+guidance:["นั่งให้หลังแนบพนักพิง","เหยียดขาขึ้นอย่างควบคุม","ลดขากลับช้า ๆ"],
+warnings:["ปรับลูกกลิ้งให้เหมาะสม","ไม่เหยียดขากระแทก","ระวังส่วนที่เคลื่อนที่"]
+},
+
+"Leg Curl": {
+muscle:"กล้ามเนื้อต้นขาด้านหลัง",
+reps:"8-12", sets:"3-4", rest:"60-90 วิ", time:"12-18 นาที",
+counting:"นับ 1 ครั้งเมื่องอขาและกลับสู่ตำแหน่งเริ่มต้น",
+placementTitle:"ชุดแผ่นน้ำหนักที่เคลื่อนที่",placementShort:"Weight Stack",icon:"📍",
+placement:["ตรวจสอบชุดน้ำหนักที่เคลื่อนที่ตามการงอขา","เลือกพื้นผิวโลหะที่ยึดได้มั่นคง","ตรวจสอบการเคลื่อนที่ของลูกกลิ้งก่อนใช้งาน"],
+avoid:["ลูกกลิ้งและส่วนรองรับขา","จุดหมุนของเครื่อง","รางนำทางและช่องว่างของแผ่นน้ำหนัก"],
+guidance:["จัดท่าให้อยู่ในตำแหน่งเหมาะสม","งอขาเข้าหาลำตัว","ค่อย ๆ กลับสู่ตำแหน่งเริ่มต้น"],
+warnings:["ปรับลูกกลิ้งให้เหมาะสม","ไม่ใช้แรงเหวี่ยง","ควบคุมการเคลื่อนไหว"]
+},
+
+"Leg Press": {
+muscle:"กล้ามเนื้อต้นขาด้านหน้า ต้นขาด้านหลัง และสะโพก",
+reps:"8-12", sets:"3-4", rest:"60-90 วิ", time:"12-18 นาที",
+counting:"นับ 1 ครั้งเมื่อดันแท่นออกและกลับสู่ตำแหน่งเริ่มต้น",
+placementTitle:"ชุดแท่นหรือแขนที่เคลื่อนที่",placementShort:"Moving Carriage",icon:"📍",
+placement:["ตรวจสอบส่วนแท่นหรือชุดรับน้ำหนักที่เคลื่อนที่","เลือกพื้นผิวโลหะเรียบที่ไม่รบกวนการเคลื่อนที่","ตรวจสอบจุดยึดตลอดช่วงการเคลื่อนที่ของเครื่อง"],
+avoid:["รางเลื่อนและลูกล้อ","ระบบล็อกนิรภัย","พื้นผิวที่อาจสัมผัสผู้ใช้หรือแผ่นน้ำหนัก"],
+guidance:["จัดตำแหน่งหลังและเท้าให้เหมาะสม","ดันแท่นออกอย่างควบคุม","กลับสู่ตำแหน่งเริ่มต้น"],
+warnings:["ไม่ล็อกเข่าจนสุด","ไม่ลดน้ำหนักเร็วหรือกระแทก","ตรวจสอบระบบล็อกก่อนใช้งาน"]
+},
+
+"Hack Squat": {
+muscle:"กล้ามเนื้อต้นขาด้านหน้าและกล้ามเนื้อสะโพก",
+reps:"8-12", sets:"3-4", rest:"60-90 วิ", time:"12-18 นาที",
+counting:"นับ 1 ครั้งเมื่อย่อตัวและกลับขึ้นสู่ตำแหน่งเริ่มต้น",
+placementTitle:"ชุดฐานรองหรือแขนที่เคลื่อนที่",placementShort:"Moving Carriage",icon:"📍",
+placement:["ตรวจสอบชุดฐานรองที่เคลื่อนที่ตามการย่อตัว","เลือกพื้นผิวโลหะที่ไม่รบกวนการเลื่อน","ตรวจสอบระบบล็อกและจุดยึดก่อนทดสอบ"],
+avoid:["รางเลื่อนและลูกล้อ","แผ่นรองไหล่และหลัง","ระบบล็อกและมือจับนิรภัย"],
+guidance:["จัดตำแหน่งเท้าให้มั่นคง","ย่อตัวอย่างควบคุม","กลับขึ้นโดยไม่กระแทก"],
+warnings:["ตรวจสอบระบบล็อกก่อนใช้งาน","ควบคุมการย่อตัว","ระวังส่วนเลื่อนของเครื่อง"]
+},
+
+"Chest Press Machine": {
+muscle:"กล้ามเนื้อหน้าอกและหัวไหล่",
+reps:"8-12", sets:"3-4", rest:"60-90 วิ", time:"12-18 นาที",
+counting:"นับเมื่อดันแขนออกและกลับสู่ตำแหน่งเดิม",
+placementTitle:"แขนโยกที่เคลื่อนที่",placementShort:"Moving Arm",icon:"📍",
+placement:["ตรวจสอบแขนโยกโลหะที่เคลื่อนที่ตามการดัน","เลือกพื้นผิวที่ไม่สัมผัสมือหรือร่างกาย","ตรวจสอบว่าจุดยึดไม่รบกวนการหมุน"],
+avoid:["มือจับและตำแหน่งจับของผู้ใช้","จุดหมุนและข้อต่อ","บริเวณที่อาจหนีบหรือเสียดสีกับโครงเครื่อง"],
+guidance:["จัดท่านั่งให้มั่นคง","ดันมือจับออก","กลับสู่ตำแหน่งเดิม"],
+warnings:["ปรับเบาะให้เหมาะสม","ไม่ดันกระแทก","ตรวจสอบชิ้นส่วนเคลื่อนที่"]
+},
+
+"Shoulder Press Machine": {
+muscle:"กล้ามเนื้อหัวไหล่และต้นแขนด้านหลัง",
+reps:"8-12", sets:"3-4", rest:"60-90 วิ", time:"12-18 นาที",
+counting:"นับเมื่อดันมือจับขึ้นและกลับลง",
+placementTitle:"แขนโยกที่เคลื่อนที่",placementShort:"Moving Arm",icon:"📍",
+placement:["ตรวจสอบแขนโยกโลหะที่เคลื่อนที่ขึ้นลง","เลือกพื้นผิวที่ไม่กีดขวางมือจับ","ตรวจสอบจุดหมุนตลอดการเคลื่อนไหว"],
+avoid:["มือจับและบริเวณจับเครื่อง","จุดหมุนและข้อต่อ","บริเวณที่อาจสัมผัสศีรษะหรือไหล่"],
+guidance:["นั่งให้มั่นคง","ดันมือจับขึ้น","ลดมือจับกลับอย่างควบคุม"],
+warnings:["ปรับเบาะให้เหมาะสม","ไม่แอ่นหลังมากเกินไป","ระวังจุดหมุน"]
+},
+
+"Smith Squat": {
+muscle:"กล้ามเนื้อต้นขาและสะโพก",
+reps:"5-10", sets:"3-5", rest:"90-120 วิ", time:"15-25 นาที",
+counting:"นับเมื่อย่อตัวและกลับขึ้นสู่ท่ายืน",
+placementTitle:"ชุดเลื่อนบาร์ของเครื่อง",placementShort:"Smith Carriage",icon:"📍",
+placement:["ตรวจสอบโครงชุดเลื่อนบาร์ที่เคลื่อนที่ขึ้นลง","พิจารณาพื้นผิวโลหะที่ไม่ขัดขวางการจับบาร์","ต้องทดสอบระยะเคลื่อนที่และระบบล็อกของรุ่นจริง"],
+avoid:["ตำแหน่งที่มือใช้จับบาร์","รางนำทางและระบบล็อก","บริเวณที่อาจสัมผัสร่างกายหรือเสื้อผ้า"],
+guidance:["ยืนให้เท้ามั่นคง","ย่อตัวอย่างควบคุม","กลับขึ้นสู่ท่ายืน"],
+warnings:["ตรวจสอบระบบล็อกบาร์","จัดแนวหลังและหัวเข่าให้เหมาะสม","ไม่ให้ FitTrack กีดขวางการจับบาร์"]
+},
+
+"Smith Bench Press": {
+muscle:"กล้ามเนื้อหน้าอก หัวไหล่ และต้นแขนด้านหลัง",
+reps:"5-10", sets:"3-5", rest:"90-120 วิ", time:"15-25 นาที",
+counting:"นับเมื่อดันบาร์ขึ้นและกลับลงอย่างควบคุม",
+placementTitle:"ชุดเลื่อนบาร์ของเครื่อง",placementShort:"Smith Carriage",icon:"📍",
+placement:["ตรวจสอบชุดเลื่อนบาร์ที่เคลื่อนที่ขึ้นลง","พิจารณาพื้นผิวโลหะที่ไม่ขัดขวางการจับบาร์","ตรวจสอบระบบล็อกและระยะเคลื่อนที่ของรุ่นจริง"],
+avoid:["บริเวณมือจับบาร์","รางเลื่อนและระบบล็อก","บริเวณเหนือผู้ใช้งานที่อุปกรณ์อาจหลุดตก"],
+guidance:["จัดท่านอนให้มั่นคง","ดันบาร์ขึ้นอย่างควบคุม","ลดบาร์กลับอย่างระมัดระวัง"],
+warnings:["ตรวจสอบระบบล็อกก่อนใช้งาน","จัดตำแหน่งตัวให้เหมาะสม","ไม่ติดอุปกรณ์ในตำแหน่งจับบาร์"]
+},
+
+"Barbell Squat": {
+muscle:"กล้ามเนื้อต้นขา สะโพก และแกนกลางลำตัว",
+reps:"5-10", sets:"3-5", rest:"90-120 วิ", time:"15-25 นาที",
+counting:"นับเมื่อย่อตัวและกลับสู่ท่ายืน",
+placementTitle:"ไม่แนะนำให้ติดด้วยแม่เหล็กโดยตรง",placementShort:"ต้องมีตัวยึดเสริมที่ผ่านการทดสอบ",icon:"⚠️",
+placement:["บาร์เบลทั่วไปไม่มีตำแหน่งติดตั้งแม่เหล็กที่ยืนยันได้เหมือนเครื่องแมชชีน","ควรออกแบบตัวยึดเสริมที่ไม่รบกวนการจับบาร์","ต้องทดสอบการยึดและการไม่หลุดก่อนพิจารณารองรับ"],
+avoid:["บริเวณมือจับบาร์","ปลอกบาร์และตำแหน่งแผ่นน้ำหนัก","บริเวณเหนือผู้ใช้หรือจุดที่อาจหลุดตก"],
+guidance:["ยืนให้เท้ามั่นคง","ย่อตัวอย่างควบคุม","กลับขึ้นสู่ท่ายืน"],
+warnings:["ควบคุมแนวหลังและหัวเข่า","ใช้พื้นที่ที่ปลอดภัย","ไม่ติดอุปกรณ์ที่อาจหลุดระหว่างยก"]
+},
+
+"Barbell Bench Press": {
+muscle:"กล้ามเนื้อหน้าอก หัวไหล่ และต้นแขนด้านหลัง",
+reps:"5-10", sets:"3-5", rest:"90-120 วิ", time:"15-25 นาที",
+counting:"นับเมื่อดันบาร์ขึ้นและกลับลง",
+placementTitle:"ไม่แนะนำให้ติดด้วยแม่เหล็กโดยตรง",placementShort:"ต้องมีตัวยึดเสริมที่ผ่านการทดสอบ",icon:"⚠️",
+placement:["บาร์เบลทั่วไปไม่ใช่จุดติดตั้งแม่เหล็กที่ยืนยันได้","ต้องออกแบบตัวยึดที่ไม่ขัดขวางการจับบาร์","ต้องทดสอบการยึดและความปลอดภัยก่อนรองรับ"],
+avoid:["ตำแหน่งมือจับบาร์","ปลอกบาร์และแผ่นน้ำหนัก","บริเวณเหนือผู้ใช้หรือจุดที่อุปกรณ์อาจหลุดตก"],
+guidance:["จัดท่านอนให้มั่นคง","ดันบาร์ขึ้นอย่างควบคุม","ลดบาร์กลับอย่างระมัดระวัง"],
+warnings:["ตรวจสอบพื้นที่และอุปกรณ์","ควบคุมการเคลื่อนไหว","ไม่ติดอุปกรณ์ในตำแหน่งจับบาร์"]
+},
+
+"Cable Row": {
+muscle:"กล้ามเนื้อหลังและแขนส่วนหน้า",
+reps:"8-12", sets:"3-4", rest:"60-90 วิ", time:"12-18 นาที",
+counting:"นับเมื่อดึงมือจับเข้าหาลำตัวและปล่อยกลับ",
+placementTitle:"ชุดแผ่นน้ำหนักที่เคลื่อนที่",placementShort:"Weight Stack",icon:"📍",
+placement:["ตรวจสอบชุดน้ำหนักที่เคลื่อนที่ตามแรงดึง","เลือกพื้นผิวโลหะที่ไม่รบกวนสายเคเบิล","ตรวจสอบจุดยึดตลอดช่วงการเคลื่อนที่"],
+avoid:["สายเคเบิลและรอก","มือจับและส่วนที่ผู้ใช้จับ","รางนำทางและช่องว่างของแผ่นน้ำหนัก"],
+guidance:["นั่งให้มั่นคง","ดึงมือจับเข้าหาลำตัว","ปล่อยกลับอย่างช้า ๆ"],
+warnings:["ไม่ดึงกระชาก","ควบคุมสายเคเบิล","ระวังสายเคเบิลและรอก"]
+},
+
+"Triceps Pushdown": {
+muscle:"กล้ามเนื้อต้นแขนด้านหลัง",
+reps:"8-12", sets:"3-4", rest:"60-90 วิ", time:"10-15 นาที",
+counting:"นับเมื่อกดมือจับลงและกลับสู่ตำแหน่งเดิม",
+placementTitle:"ชุดแผ่นน้ำหนักที่เคลื่อนที่",placementShort:"Weight Stack",icon:"📍",
+placement:["ตรวจสอบชุดน้ำหนักที่เคลื่อนที่ตามการกดสาย","เลือกพื้นผิวโลหะที่ไม่ขัดขวางรอก","ทดสอบจุดยึดก่อนเริ่มใช้งาน"],
+avoid:["สายเคเบิลและรอก","มือจับและอุปกรณ์ต่อพ่วง","รางนำทางของชุดน้ำหนัก"],
+guidance:["ยืนให้มั่นคง","กดมือจับลงอย่างควบคุม","กลับสู่ตำแหน่งเริ่มต้น"],
+warnings:["ไม่ใช้แรงเหวี่ยง","ควบคุมข้อศอก","ระวังสายเคเบิล"]
+},
+
+"Cable Fly": {
+muscle:"กล้ามเนื้อหน้าอก",
+reps:"8-12", sets:"3-4", rest:"60-90 วิ", time:"10-15 นาที",
+counting:"นับเมื่อรวบมือจับเข้าหากันและกางกลับ",
+placementTitle:"ชุดน้ำหนักที่เคลื่อนที่",placementShort:"Weight Stack",icon:"📍",
+placement:["ตรวจสอบชุดน้ำหนักที่เคลื่อนที่ตามแรงดึง","เลือกพื้นผิวโลหะที่ไม่ขัดขวางสายเคเบิล","ทดสอบการเคลื่อนที่ของชุดน้ำหนัก"],
+avoid:["สายเคเบิลและรอก","มือจับและบริเวณที่ผู้ใช้เคลื่อนไหว","รางนำทางและช่องว่างของแผ่นน้ำหนัก"],
+guidance:["ยืนให้มั่นคง","รวบมือจับเข้าหากัน","กางแขนกลับอย่างควบคุม"],
+warnings:["เลือกน้ำหนักที่ควบคุมได้","ไม่เหยียดแขนกระแทก","ระวังสายเคเบิล"]
+},
+
+"Cable Biceps Curl": {
+muscle:"กล้ามเนื้อต้นแขนด้านหน้า",
+reps:"8-12", sets:"3-4", rest:"60-90 วิ", time:"10-15 นาที",
+counting:"นับเมื่อยกมือจับขึ้นและลดกลับ",
+placementTitle:"ชุดน้ำหนักที่เคลื่อนที่",placementShort:"Weight Stack",icon:"📍",
+placement:["ตรวจสอบชุดน้ำหนักที่เคลื่อนที่ตามแรงดึง","เลือกพื้นผิวโลหะที่ไม่รบกวนรอก","ทดสอบจุดยึดก่อนเริ่มใช้งาน"],
+avoid:["สายเคเบิลและรอก","มือจับและอุปกรณ์ต่อพ่วง","รางนำทางของชุดน้ำหนัก"],
+guidance:["ยืนให้มั่นคง","งอข้อศอกยกมือจับขึ้น","ลดกลับอย่างช้า ๆ"],
+warnings:["ไม่โยกตัวเพื่อช่วยยก","ควบคุมการเคลื่อนไหว","ระวังสายเคเบิลและรอก"]
+}
+
+};
+
+let selectedCategory = "";
+let selectedMachine = "";
+
+/* DEMO DATA */
+
+const demoStats = {
+    "Chest Press": {reps:36,sets:3,time:"15 นาที",rest:"90 วิ",date:"20/11/2026"},
+    "Lat Pulldown": {reps:40,sets:4,time:"18 นาที",rest:"90 วิ",date:"19/11/2026"},
+    "Seated Row": {reps:36,sets:3,time:"14 นาที",rest:"60 วิ",date:"18/11/2026"},
+    "Shoulder Press": {reps:30,sets:3,time:"12 นาที",rest:"90 วิ",date:"17/11/2026"},
+    "Leg Extension": {reps:40,sets:4,time:"16 นาที",rest:"60 วิ",date:"16/11/2026"},
+    "Leg Curl": {reps:36,sets:3,time:"15 นาที",rest:"60 วิ",date:"15/11/2026"}
+};
+
+function getDemoStats(name) {
+    if (demoStats[name]) return demoStats[name];
+
+    const index = Object.keys(machineData).indexOf(name);
+
+    return {
+        reps:32 + (index % 4) * 4,
+        sets:3 + (index % 2),
+        time:"15 นาที",
+        rest:"90 วิ",
+        date:"20/11/2026"
+    };
+}
+
+/* RENDER CATEGORIES */
+
+function renderCategories() {
+    const grid = document.getElementById("categoryGrid");
+    grid.innerHTML = "";
+
+    Object.entries(categories).forEach(([name,data]) => {
+        const card = document.createElement("button");
+        card.className = "category-card";
+
+        card.innerHTML = `
+            <img src="${data.image}" alt="${data.desc}">
+            <div class="category-info">
+                <strong>${data.icon} ${name}</strong>
+                <small>${data.desc}</small>
+            </div>
+        `;
+
+        card.onclick = () => selectCategory(name);
+        grid.appendChild(card);
+    });
+}
+
+function selectCategory(name) {
+    selectedCategory = name;
+
+    document.getElementById("categorySection").classList.add("hidden");
+    document.getElementById("machineSection").classList.remove("hidden");
+    document.getElementById("detailSection").classList.add("hidden");
+
+    document.getElementById("selectedCategory").textContent =
+        categories[name].desc;
+
+    renderMachines();
+    window.scrollTo({top:0,behavior:"smooth"});
+}
+
+function renderMachines() {
+    const grid = document.getElementById("machineGrid");
+    grid.innerHTML = "";
+
+    categories[selectedCategory].machines.forEach(name => {
+        const card = document.createElement("button");
+        card.className = "machine-card";
+
+        card.innerHTML = `
+            <div class="machine-icon">🏋️</div>
+            <div>
+                <strong>${name}</strong>
+                <small>กดเพื่อดูรายละเอียดและตำแหน่งติดตั้ง</small>
+            </div>
+        `;
+
+        card.onclick = () => selectMachine(name);
+        grid.appendChild(card);
+    });
+}
+
+/* SELECT MACHINE */
+
+function selectMachine(name) {
+    const data = machineData[name];
+
+    if (!data) {
+        alert("ยังไม่มีข้อมูลเครื่องนี้");
+        return;
+    }
+
+    selectedMachine = name;
+
+    document.getElementById("machineSection").classList.add("hidden");
+    document.getElementById("detailSection").classList.remove("hidden");
+
+    document.getElementById("detailName").textContent = name;
+    document.getElementById("muscle").textContent = data.muscle;
+
+    document.getElementById("reps").textContent = data.reps + " ครั้ง";
+    document.getElementById("sets").textContent = data.sets + " เซ็ต";
+    document.getElementById("rest").textContent = data.rest;
+    document.getElementById("time").textContent = data.time;
+
+    document.getElementById("counting").textContent = data.counting;
+
+    document.getElementById("installStatus").textContent =
+        data.icon === "⚠️"
+        ? "ต้องออกแบบตัวยึดเพิ่มเติม"
+        : "แนวทางตำแหน่งติดตั้ง";
+
+    document.getElementById("diagramIcon").textContent = data.icon;
+    document.getElementById("placementTitle").textContent = data.placementTitle;
+    document.getElementById("placementShort").textContent = data.placementShort;
+
+    document.getElementById("placementList").innerHTML =
+        data.placement.map(item => `<li>${item}</li>`).join("");
+
+    document.getElementById("avoidList").innerHTML =
+        data.avoid.map(item => `<li>${item}</li>`).join("");
+
+    document.getElementById("guidance").innerHTML =
+        data.guidance.map(item => `<p>✓ ${item}</p>`).join("");
+
+    document.getElementById("warnings").innerHTML =
+        data.warnings.map(item => `<p>⚠ ${item}</p>`).join("");
+
+    document.querySelectorAll("#detailSection details").forEach(item => {
+        item.open = false;
+    });
+
+    renderLatestStats(name);
+
+    window.scrollTo({top:0,behavior:"smooth"});
+}
+
+/* LATEST DEMO STATISTICS */
+
+function renderLatestStats(name) {
+
+    const stats = getDemoStats(name);
+
+    document.getElementById("latestMachineName").textContent = name;
+    document.getElementById("latestReps").textContent = stats.reps;
+    document.getElementById("latestSets").textContent = stats.sets;
+    document.getElementById("latestTime").textContent = stats.time;
+    document.getElementById("latestRest").textContent = stats.rest;
+    document.getElementById("latestDate").textContent = stats.date;
+
+    document.getElementById("latestStatus").textContent =
+        "ข้อมูลตัวอย่าง";
+
+    document.getElementById("latestMessage").textContent =
+        "ตัวอย่างสถิติของเครื่อง " + name +
+        " ข้อมูลนี้จัดทำขึ้นเพื่อสาธิตรูปแบบการแสดงผล " +
+        "ยังไม่ได้รับจากอุปกรณ์ FitTrack จริง และไม่ได้บันทึกเป็นประวัติการฝึกจริง";
+}
+
+/* START WORKOUT */
+
+function startSelectedWorkout() {
+
+    if (!selectedMachine) {
+        alert("กรุณาเลือกเครื่องออกกำลังกายก่อน");
+        return;
+    }
+
+    const data = machineData[selectedMachine];
+
+    const params = new URLSearchParams({
+        machine:selectedMachine,
+        reps:data.reps,
+        sets:data.sets,
+        rest:data.rest,
+        mode:"demo"
+    });
+
+    window.location.href = "workout.html?" + params.toString();
+}
+
+/* NAVIGATION */
+
+function backToCategories() {
+    document.getElementById("categorySection").classList.remove("hidden");
+    document.getElementById("machineSection").classList.add("hidden");
+    document.getElementById("detailSection").classList.add("hidden");
+
+    window.scrollTo({top:0,behavior:"smooth"});
+}
+
+function backToMachines() {
+    document.getElementById("categorySection").classList.add("hidden");
+    document.getElementById("machineSection").classList.remove("hidden");
+    document.getElementById("detailSection").classList.add("hidden");
+
+    window.scrollTo({top:0,behavior:"smooth"});
+}
+
+function logout() {
+    if (confirm("ต้องการออกจากระบบหรือไม่?")) {
+        window.location.href = "index.html";
+    }
+}
+
+/* BOTTOM NAV ACTIVE STATE */
+
+document.querySelectorAll(".nav a").forEach(link => {
+    link.addEventListener("click", function() {
+        document.querySelectorAll(".nav a").forEach(item => {
+            item.classList.remove("active");
+        });
+        this.classList.add("active");
+    });
+});
+
+/* API CONNECTION */
+
+const API_BASE_URL = "http://localhost:3000";
+
+function formatDuration(seconds) {
+    const totalMinutes = Math.floor((Number(seconds) || 0) / 60);
+    const remainingSeconds = (Number(seconds) || 0) % 60;
+    if (totalMinutes > 0 && remainingSeconds > 0) return `${totalMinutes} นาที ${remainingSeconds} วินาที`;
+    if (totalMinutes > 0) return `${totalMinutes} นาที`;
+    return `${remainingSeconds} วินาที`;
+}
+
+function formatWorkoutDate(value) {
+    if (!value) return "-";
+    const date = new Date(value);
+    if (Number.isNaN(date.getTime())) return "-";
+    return date.toLocaleString("th-TH", {
+        day: "2-digit", month: "2-digit", year: "numeric",
+        hour: "2-digit", minute: "2-digit"
+    });
+}
+
+async function loadLatestApiData() {
+    const connection = document.getElementById("connectionStatus");
+    try {
+        const response = await fetch(`${API_BASE_URL}/api/status`, {
+            method: "GET", cache: "no-store"
+        });
+        if (!response.ok) throw new Error("API response error");
+        const result = await response.json();
+        if (!result.success || !result.data) throw new Error("Invalid API data");
+
+        connection.textContent = "● API เชื่อมต่อแล้ว";
+        connection.style.color = "#36d69a";
+
+        const data = result.data;
+        if (data.updatedAt && data.machine) {
+            document.getElementById("latestMachineName").textContent = data.machine;
+            document.getElementById("latestReps").textContent = data.reps;
+            document.getElementById("latestSets").textContent = data.sets;
+            document.getElementById("latestTime").textContent = formatDuration(data.duration);
+            document.getElementById("latestRest").textContent = "-";
+            document.getElementById("latestDate").textContent = formatWorkoutDate(data.updatedAt);
+
+            const isHardware = data.mode === "HARDWARE";
+            document.getElementById("latestStatus").textContent =
+                isHardware ? "ข้อมูลจากอุปกรณ์" : "ข้อมูลจำลองจาก API";
+            document.getElementById("latestMessage").textContent =
+                isHardware
+                    ? "ข้อมูลนี้ได้รับจากอุปกรณ์ FitTrack ผ่าน API"
+                    : "ข้อมูลนี้รับจาก API ในโหมด SIMULATION ใช้สำหรับทดสอบการรับส่งข้อมูล ยังไม่ใช่ข้อมูลจากเซนเซอร์จริง";
+        } else {
+            document.getElementById("latestMessage").textContent =
+                "API พร้อมใช้งานแล้ว แต่ยังไม่มีข้อมูลการออกกำลังกายส่งเข้ามา จึงแสดงข้อมูลตัวอย่างในหน้านี้";
+        }
+    } catch (error) {
+        connection.textContent = "● API ยังไม่พร้อมใช้งาน";
+        connection.style.color = "#ffc857";
+    }
+}
+
+/* INITIALIZE */
+
+renderCategories();
+renderLatestStats("Chest Press");
+loadLatestApiData();
+setInterval(loadLatestApiData, 3000);
+
+</script>
+
+</body>
+</html>
+```

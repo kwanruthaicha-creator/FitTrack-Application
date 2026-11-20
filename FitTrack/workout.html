@@ -1,0 +1,1172 @@
+
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FitTrack | เริ่มออกกำลังกาย</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --bg: #081321;
+            --card: #101e30;
+            --card-light: #172a40;
+            --text: #edf5ff;
+            --muted: #9aadc2;
+            --blue: #55aaff;
+            --border: rgba(255,255,255,0.1);
+            --green: #55d6a0;
+            --orange: #ffbd70;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            padding: 24px 20px 35px;
+            background: var(--bg);
+            color: var(--text);
+            font-family: 'Kanit', sans-serif;
+        }
+
+        .container {
+            max-width: 950px;
+            margin: auto;
+        }
+
+        header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 28px;
+        }
+
+        .back-btn {
+            width: 42px;
+            height: 42px;
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            background: var(--card);
+            color: white;
+            font-size: 22px;
+            cursor: pointer;
+        }
+
+        .header-title h1 {
+            font-size: 25px;
+            margin: 0;
+        }
+
+        .header-title p {
+            color: var(--muted);
+            font-size: 13px;
+            margin: 2px 0 0;
+        }
+
+        .connection {
+            margin-left: auto;
+            padding: 8px 13px;
+            border-radius: 20px;
+            background: rgba(255,170,70,0.12);
+            color: var(--orange);
+            font-size: 12px;
+            white-space: nowrap;
+        }
+
+        .machine-card {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 20px;
+            padding: 25px;
+            background: linear-gradient(120deg, #142c47, #101e30);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            margin-bottom: 20px;
+        }
+
+        .machine-info small {
+            color: var(--blue);
+            letter-spacing: 1px;
+        }
+
+        .machine-info h2 {
+            font-size: 27px;
+            margin: 8px 0;
+        }
+
+        .machine-info p {
+            color: var(--muted);
+            margin: 0 0 15px;
+        }
+
+        .mode-tag {
+            display: inline-block;
+            padding: 6px 13px;
+            border-radius: 20px;
+            background: rgba(85,170,255,0.15);
+            color: #8dc8ff;
+            font-size: 12px;
+        }
+
+        .machine-image {
+            width: 220px;
+            height: 165px;
+            flex-shrink: 0;
+            overflow: hidden;
+            border-radius: 16px;
+            background: #fff;
+            border: 1px solid var(--border);
+        }
+
+        .machine-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            display: block;
+        }
+
+        .notice {
+            padding: 16px 18px;
+            background: rgba(255,180,80,0.08);
+            border: 1px solid rgba(255,180,80,0.2);
+            border-radius: 15px;
+            margin-bottom: 20px;
+        }
+
+        .notice strong {
+            color: #ffc477;
+            font-size: 15px;
+        }
+
+        .notice p {
+            color: var(--muted);
+            font-size: 13px;
+            margin: 5px 0 0;
+        }
+
+        .recommend-card {
+            padding: 20px;
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 17px;
+            margin-bottom: 20px;
+        }
+
+        .recommend-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+        }
+
+        .recommend-item {
+            padding: 15px 10px;
+            background: var(--card-light);
+            border-radius: 13px;
+            text-align: center;
+        }
+
+        .recommend-item p {
+            color: var(--muted);
+            font-size: 12px;
+            margin: 0 0 7px;
+        }
+
+        .recommend-item strong {
+            font-size: 19px;
+            color: var(--blue);
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .stat-card {
+            padding: 22px;
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 17px;
+        }
+
+        .stat-card p {
+            color: var(--muted);
+            margin: 0 0 8px;
+            font-size: 14px;
+        }
+
+        .stat-number {
+            font-size: 35px;
+            font-weight: 600;
+        }
+
+        .stat-unit {
+            color: var(--muted);
+            font-size: 14px;
+            margin-left: 5px;
+        }
+
+        .tips-card, .timer-card, .control-card {
+            padding: 20px;
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 17px;
+            margin-bottom: 20px;
+        }
+
+        .section-title {
+            font-size: 17px;
+            font-weight: 500;
+            margin-bottom: 10px;
+        }
+
+        .tips-card p {
+            color: var(--muted);
+            line-height: 1.8;
+            margin: 0;
+            font-size: 14px;
+        }
+
+        .progress-track {
+            width: 100%;
+            height: 9px;
+            background: #24364b;
+            border-radius: 20px;
+            overflow: hidden;
+            margin-top: 13px;
+        }
+
+        .progress-bar {
+            width: 0%;
+            height: 100%;
+            background: var(--blue);
+            border-radius: 20px;
+            transition: width 0.3s;
+        }
+
+        .progress-text {
+            color: var(--muted);
+            font-size: 12px;
+            margin-top: 8px;
+        }
+
+        .timer-content {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 15px;
+        }
+
+        .timer-number {
+            font-size: 35px;
+            font-weight: 600;
+            color: var(--blue);
+        }
+
+        .timer-btn {
+            border: 0;
+            border-radius: 10px;
+            padding: 10px 18px;
+            background: #1d5d98;
+            color: white;
+            font-family: inherit;
+            cursor: pointer;
+        }
+
+        .sound-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-top: 15px;
+            color: var(--muted);
+            font-size: 13px;
+        }
+
+        .sound-btn {
+            border: 1px solid var(--border);
+            background: var(--card-light);
+            color: white;
+            padding: 7px 13px;
+            border-radius: 9px;
+            font-family: inherit;
+            cursor: pointer;
+        }
+
+        .control-card {
+            text-align: center;
+        }
+
+        .control-card p {
+            color: var(--muted);
+            font-size: 13px;
+            margin: 5px 0 15px;
+        }
+
+        .rep-btn {
+            width: 100%;
+            padding: 17px;
+            border: 0;
+            border-radius: 13px;
+            background: var(--blue);
+            color: #061426;
+            font-family: inherit;
+            font-size: 17px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .rep-btn:disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+        }
+
+        .actions {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-top: 20px;
+        }
+
+        .action-btn {
+            padding: 14px;
+            border: 0;
+            border-radius: 12px;
+            font-family: inherit;
+            font-size: 15px;
+            cursor: pointer;
+        }
+
+        .start-btn {
+            background: var(--green);
+            color: #061426;
+            font-weight: 600;
+        }
+
+        .finish-btn {
+            background: var(--card-light);
+            color: white;
+            border: 1px solid var(--border);
+        }
+
+        .status-message {
+            text-align: center;
+            color: var(--muted);
+            font-size: 13px;
+            margin-top: 14px;
+            line-height: 1.7;
+        }
+
+        @media (max-width: 600px) {
+            body {
+                padding: 18px 14px 30px;
+            }
+
+            .header-title h1 {
+                font-size: 20px;
+            }
+
+            .connection {
+                font-size: 10px;
+                padding: 7px 9px;
+            }
+
+            .machine-card {
+                padding: 17px;
+                gap: 10px;
+            }
+
+            .machine-info h2 {
+                font-size: 20px;
+            }
+
+            .machine-info p {
+                font-size: 12px;
+            }
+
+            .machine-image {
+                width: 115px;
+                height: 115px;
+            }
+
+            .recommend-card {
+                padding: 15px;
+            }
+
+            .recommend-grid {
+                gap: 7px;
+            }
+
+            .recommend-item {
+                padding: 12px 5px;
+            }
+
+            .recommend-item strong {
+                font-size: 15px;
+            }
+
+            .recommend-item p {
+                font-size: 11px;
+            }
+
+            .stat-card {
+                padding: 17px;
+            }
+
+            .stat-number {
+                font-size: 29px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+<div class="container">
+
+    <header>
+        <button class="back-btn" onclick="history.back()">‹</button>
+
+        <div class="header-title">
+            <h1>เริ่มออกกำลังกาย</h1>
+            <p>ติดตามการออกกำลังกายของคุณ</p>
+        </div>
+
+        <div class="connection">● ยังไม่เชื่อมต่อ</div>
+    </header>
+
+    <section class="machine-card">
+        <div class="machine-info">
+            <small>FITTRACK WORKOUT</small>
+            <h2 id="machineName">Chest Press</h2>
+            <p>เครื่องออกกำลังกายที่เลือก</p>
+            <span class="mode-tag">โหมดทดลองนับ Reps</span>
+        </div>
+
+        <div class="machine-image">
+            <img id="machineImage" src="" alt="เครื่องออกกำลังกาย">
+        </div>
+    </section>
+
+    <section class="notice">
+        <strong>ตรวจสอบก่อนเริ่มออกกำลังกาย</strong>
+        <p>กรุณาตรวจสอบอุปกรณ์และความพร้อมก่อนเริ่มใช้งาน</p>
+    </section>
+
+    <section class="recommend-card">
+        <div class="section-title">✧ คำแนะนำสำหรับเครื่องนี้</div>
+
+        <div class="recommend-grid">
+            <div class="recommend-item">
+                <p>จำนวนครั้งที่แนะนำ</p>
+                <strong id="recommendedReps">8-12 ครั้ง</strong>
+            </div>
+
+            <div class="recommend-item">
+                <p>จำนวนเซ็ตที่แนะนำ</p>
+                <strong id="recommendedSets">3-4 เซ็ต</strong>
+            </div>
+
+            <div class="recommend-item">
+                <p>เวลาพักที่แนะนำ</p>
+                <strong id="recommendedRest">60-90 วิ</strong>
+            </div>
+        </div>
+    </section>
+
+    <section class="stats">
+        <div class="stat-card">
+            <p>จำนวนครั้ง (Reps)</p>
+            <span class="stat-number" id="repCount">0</span>
+            <span class="stat-unit">ครั้ง</span>
+        </div>
+
+        <div class="stat-card">
+            <p>เซ็ตที่เสร็จแล้ว (Sets)</p>
+            <span class="stat-number" id="setCount">0</span>
+            <span class="stat-unit">เซ็ต</span>
+        </div>
+    </section>
+
+    <section class="tips-card">
+        <div class="section-title">✧ เคล็ดลับการออกกำลังกาย</div>
+        <p id="machineTip">คำแนะนำสำหรับเครื่องที่เลือก</p>
+    </section>
+
+    <section class="control-card">
+        <div class="section-title">บันทึกจำนวนครั้ง</div>
+        <p>กดปุ่มด้านล่างเพื่อจำลองการนับจำนวนครั้ง</p>
+
+        <button class="rep-btn" id="repButton" onclick="addRep()" disabled>
+            + บันทึก 1 ครั้ง
+        </button>
+
+        <div class="progress-track">
+            <div class="progress-bar" id="progressBar"></div>
+        </div>
+
+        <div class="progress-text" id="progressText">
+            ยังไม่ได้เริ่มออกกำลังกาย
+        </div>
+    </section>
+
+    <section class="timer-card">
+        <div class="section-title">เวลาพักระหว่างเซ็ต</div>
+
+        <div class="timer-content">
+            <div class="timer-number" id="timerDisplay">01:15</div>
+            <button class="timer-btn" id="timerButton" onclick="toggleTimer()">
+                เริ่มพัก
+            </button>
+        </div>
+
+        <div class="sound-row">
+            <span>เสียงแจ้งเตือน</span>
+            <button class="sound-btn" id="soundButton" onclick="toggleSound()">
+                🔊 เปิดเสียง
+            </button>
+        </div>
+    </section>
+
+    <div class="actions">
+        <button class="action-btn start-btn" id="startButton" onclick="startWorkout()">
+            เริ่มออกกำลังกาย
+        </button>
+
+        <button class="action-btn finish-btn" onclick="finishWorkout()">
+            จบการออกกำลังกาย
+        </button>
+    </div>
+
+    <p class="status-message" id="statusMessage">
+        พร้อมสำหรับการออกกำลังกาย
+    </p>
+
+</div>
+
+<script>
+    // ข้อมูลคำแนะนำของเครื่องออกกำลังกาย
+    const machineInfo = {
+        "Chest Press": {
+            tip: "นั่งให้หลังแนบพนักพิง จับมือจับทั้งสองข้าง ดันออกไปด้านหน้าอย่างควบคุม และค่อย ๆ กลับสู่ตำแหน่งเริ่มต้น",
+            image: "assets/chest-press.jpg"
+        },
+        "Lat Pulldown": {
+            tip: "นั่งให้มั่นคง จับบาร์ให้กว้างกว่าหัวไหล่เล็กน้อย ดึงบาร์ลงมาบริเวณหน้าอก แล้วค่อย ๆ ปล่อยกลับ",
+            image: "assets/lat-pulldown.jpg"
+        },
+        "Seated Row": {
+            tip: "นั่งหลังตรง จับมือจับแล้วดึงเข้าหาลำตัว โดยควบคุมการเคลื่อนไหวและไม่โยกลำตัว",
+            image: "assets/seated-row.jpg"
+        },
+        "Shoulder Press": {
+            tip: "นั่งให้หลังแนบพนักพิง จับมือจับในระดับหัวไหล่ ดันขึ้นอย่างควบคุม แล้วค่อย ๆ ลดลง",
+            image: "assets/shoulder-press.jpg"
+        },
+        "Leg Extension": {
+            tip: "นั่งให้หลังแนบพนักพิง วางหน้าแข้งกับแผ่นรอง แล้วยืดเข่าขึ้นอย่างช้า ๆ ก่อนกลับสู่ตำแหน่งเริ่มต้น",
+            image: "assets/leg-extension.jpg"
+        },
+        "Leg Curl": {
+            tip: "จัดตำแหน่งแผ่นรองให้อยู่บริเวณข้อเท้า งอเข่าเข้าหาลำตัวอย่างควบคุม แล้วค่อย ๆ กลับ",
+            image: "assets/leg-curl.jpg"
+        },
+        "Leg Press": {
+            tip: "วางเท้าบนแผ่นรองให้มั่นคง ดันออกโดยไม่ล็อกเข่า และลดน้ำหนักกลับอย่างช้า ๆ",
+            image: "assets/leg-press.jpg"
+        },
+        "Hack Squat": {
+            tip: "วางไหล่ใต้แผ่นรองและวางเท้าให้มั่นคง ย่อตัวตามช่วงการเคลื่อนไหวที่ควบคุมได้ แล้วดันกลับขึ้น",
+            image: "assets/hack-squat.jpg"
+        },
+        "Chest Press Machine": {
+            tip: "ปรับเบาะให้มือจับอยู่ระดับกลางหน้าอก ดันออกอย่างควบคุม และไม่กระแทกน้ำหนักกลับ",
+            image: "assets/chest-press-machine.jpg"
+        },
+        "Shoulder Press Machine": {
+            tip: "ปรับเบาะให้มือจับอยู่ระดับหัวไหล่ ดันขึ้นอย่างนุ่มนวล และลดลงโดยควบคุม",
+            image: "assets/shoulder-press-machine.jpg"
+        },
+        "Smith Squat": {
+            tip: "วางบาร์ให้มั่นคงบนแนวไหล่ ยืนให้เท้าห่างกันพอเหมาะ แล้วย่อตัวโดยรักษาหลังให้อยู่ในท่าที่มั่นคง",
+            image: "assets/smith-squat.jpg"
+        },
+        "Smith Bench Press": {
+            tip: "นอนให้มั่นคงบนม้านั่ง จับบาร์ให้สมดุล ลดบาร์อย่างควบคุม แล้วดันกลับขึ้น",
+            image: "assets/smith-bench-press.jpg"
+        },
+        "Barbell Squat": {
+            tip: "ยืนให้เท้ามั่นคง วางบาร์อย่างเหมาะสม ย่อตัวโดยรักษาสมดุล และใช้ท่าทางที่ถูกต้อง",
+            image: "assets/barbell-squat.jpg"
+        },
+        "Barbell Bench Press": {
+            tip: "นอนให้มั่นคงบนม้านั่ง จับบาร์อย่างสมดุล ลดบาร์อย่างควบคุม และดันกลับขึ้นโดยไม่กระแทก",
+            image: "assets/barbell-bench-press.jpg"
+        },
+        "Cable Row": {
+            tip: "นั่งหลังตรง จับมือจับแล้วดึงเข้าหาลำตัว บีบสะบักเบา ๆ และค่อย ๆ เหยียดแขนกลับ",
+            image: "assets/cable-row.jpg"
+        },
+        "Triceps Pushdown": {
+            tip: "ยืนตัวตรง เก็บข้อศอกไว้ใกล้ลำตัว กดมือจับลงจนแขนเหยียด แล้วค่อย ๆ กลับขึ้น",
+            image: "assets/triceps-pushdown.jpg"
+        },
+        "Cable Fly": {
+            tip: "ยืนให้มั่นคง จับมือจับทั้งสองข้าง กางแขนเล็กน้อยแล้วนำมือเข้าหากันอย่างควบคุม",
+            image: "assets/cable-fly.jpg"
+        },
+        "Cable Biceps Curl": {
+            tip: "ยืนตัวตรง เก็บข้อศอกไว้ข้างลำตัว งอแขนเข้าหาตัว แล้วค่อย ๆ ลดมือลง",
+            image: "assets/cable-biceps-curl.jpg"
+        }
+    };
+
+    // อ่านข้อมูลที่ส่งมาจาก Dashboard
+    const params = new URLSearchParams(window.location.search);
+
+    const selectedMachine = params.get("machine") || "Chest Press";
+
+    const repsRange = params.get("reps") || "8-12";
+    const setsRange = params.get("sets") || "3-4";
+    const restRange = params.get("rest") || "60-90 วิ";
+
+    // อ่านตัวเลขจากช่วงที่ได้รับ
+    function getNumbers(value) {
+        return (value.match(/\d+/g) || []).map(Number);
+    }
+
+    const repsNumbers = getNumbers(repsRange);
+    const setsNumbers = getNumbers(setsRange);
+    const restNumbers = getNumbers(restRange);
+
+    // ใช้ค่าสูงสุดของช่วงเป็นเป้าหมายทดลอง
+    const targetReps = Math.max(1, repsNumbers.length
+        ? Math.max(...repsNumbers)
+        : 12);
+
+    const targetSets = Math.max(1, setsNumbers.length
+        ? Math.max(...setsNumbers)
+        : 4);
+
+    // ใช้ค่ากลางของช่วงเวลาพัก
+    const restSeconds = Math.max(1, restNumbers.length >= 2
+        ? Math.round((restNumbers[0] + restNumbers[1]) / 2)
+        : restNumbers[0] || 60);
+
+    // แสดงข้อมูลเครื่อง
+    document.getElementById("machineName").textContent = selectedMachine;
+
+    document.getElementById("recommendedReps").textContent =
+        repsRange + " ครั้ง";
+
+    document.getElementById("recommendedSets").textContent =
+        setsRange + " เซ็ต";
+
+    document.getElementById("recommendedRest").textContent =
+        restRange;
+
+    const selectedInfo = machineInfo[selectedMachine];
+
+    if (selectedInfo) {
+        document.getElementById("machineTip").textContent =
+            selectedInfo.tip;
+
+        document.getElementById("machineImage").src =
+            selectedInfo.image;
+    } else {
+        document.getElementById("machineTip").textContent =
+            "กรุณาตรวจสอบท่าทางและใช้งานเครื่องอย่างถูกต้องตามคำแนะนำของผู้ฝึกสอน";
+    }
+
+    // ตัวแปรควบคุมการออกกำลังกาย
+    let currentReps = 0;
+    let completedSets = 0;
+
+    let workoutStarted = false;
+    let isResting = false;
+    let workoutFinished = false;
+
+    let remainingTime = restSeconds;
+    let timerInterval = null;
+
+    let soundEnabled = true;
+    let audioContext = null;
+
+    // แสดงเวลาในรูปแบบ MM:SS
+    function updateTimer() {
+        const minutes = Math.floor(remainingTime / 60);
+        const seconds = remainingTime % 60;
+
+        document.getElementById("timerDisplay").textContent =
+            String(minutes).padStart(2, "0") + ":" +
+            String(seconds).padStart(2, "0");
+    }
+
+    // แสดงจำนวนครั้งและเซ็ต
+    function updateStats() {
+        document.getElementById("repCount").textContent =
+            currentReps;
+
+        document.getElementById("setCount").textContent =
+            completedSets;
+
+        const progress = Math.min(
+            (currentReps / targetReps) * 100,
+            100
+        );
+
+        document.getElementById("progressBar").style.width =
+            progress + "%";
+
+        document.getElementById("progressText").textContent =
+            "เซ็ตปัจจุบัน: " + (completedSets + 1) +
+            " / " + targetSets +
+            " | " + currentReps + " / " + targetReps + " ครั้ง";
+    }
+
+    // สร้างเสียงแจ้งเตือนผ่านเบราว์เซอร์
+    function playSound(frequency = 700) {
+        if (!soundEnabled) return;
+
+        try {
+            const AudioContextClass =
+                window.AudioContext || window.webkitAudioContext;
+
+            if (!AudioContextClass) return;
+
+            if (!audioContext) {
+                audioContext = new AudioContextClass();
+            }
+
+            if (audioContext.state === "suspended") {
+                audioContext.resume();
+            }
+
+            const oscillator = audioContext.createOscillator();
+            const gain = audioContext.createGain();
+
+            oscillator.connect(gain);
+            gain.connect(audioContext.destination);
+
+            oscillator.frequency.value = frequency;
+            oscillator.type = "sine";
+
+            gain.gain.setValueAtTime(
+                0.2,
+                audioContext.currentTime
+            );
+
+            gain.gain.exponentialRampToValueAtTime(
+                0.001,
+                audioContext.currentTime + 0.35
+            );
+
+            oscillator.start();
+            oscillator.stop(audioContext.currentTime + 0.35);
+
+        } catch (error) {
+            console.log("ไม่สามารถเล่นเสียงได้", error);
+        }
+    }
+
+    // เปิดหรือปิดเสียง
+    function toggleSound() {
+        soundEnabled = !soundEnabled;
+
+        document.getElementById("soundButton").textContent =
+            soundEnabled ? "🔊 เปิดเสียง" : "🔇 ปิดเสียง";
+
+        if (soundEnabled) {
+            playSound(700);
+        }
+    }
+
+    // เริ่มออกกำลังกาย
+    function startWorkout() {
+        if (workoutFinished) {
+            resetWorkout();
+        }
+
+        if (isResting) {
+            document.getElementById("statusMessage").textContent =
+                "กำลังพักระหว่างเซ็ต กรุณารอให้ครบเวลาก่อน";
+            return;
+        }
+
+        workoutStarted = true;
+
+        // เริ่มระบบ API
+        startFitTrackAPI();
+
+        document.getElementById("repButton").disabled = false;
+
+        document.getElementById("startButton").textContent =
+            "กำลังออกกำลังกาย";
+
+        document.getElementById("statusMessage").textContent =
+            "เริ่มออกกำลังกายแล้ว สามารถกดบันทึกจำนวนครั้งได้";
+
+        if (!audioContext) {
+            const AudioContextClass =
+                window.AudioContext || window.webkitAudioContext;
+
+            if (AudioContextClass) {
+                audioContext = new AudioContextClass();
+                audioContext.resume();
+            }
+        }
+
+        playSound(600);
+    }
+
+    // เพิ่มจำนวนครั้ง
+    function addRep() {
+        if (!workoutStarted || isResting || workoutFinished) {
+            return;
+        }
+
+        currentReps++;
+
+        apiReps = currentReps;
+        sendFitTrackData();
+
+        playSound(500);
+
+        updateStats();
+
+        if (currentReps >= targetReps) {
+            completeSet();
+        } else {
+            document.getElementById("statusMessage").textContent =
+                "บันทึกแล้ว " + currentReps +
+                " จาก " + targetReps + " ครั้ง";
+        }
+    }
+
+    // เมื่อครบจำนวนครั้งของเซ็ต
+    function completeSet() {
+        currentReps = targetReps;
+        completedSets++;
+
+        apiSets = completedSets;
+        apiReps = currentReps;
+        sendFitTrackData();
+
+        updateStats();
+
+        playSound(850);
+
+        document.getElementById("repButton").disabled = true;
+
+        if (completedSets >= targetSets) {
+            finishAllSets();
+            return;
+        }
+
+        document.getElementById("statusMessage").textContent =
+            "ครบเซ็ตที่ " + completedSets +
+            " แล้ว ระบบกำลังเริ่มเวลาพักอัตโนมัติ";
+
+        startAutomaticRest();
+    }
+
+    // เริ่มเวลาพักอัตโนมัติ
+    function startAutomaticRest() {
+        if (timerInterval) {
+            clearInterval(timerInterval);
+            timerInterval = null;
+        }
+
+        isResting = true;
+        remainingTime = restSeconds;
+
+        document.getElementById("timerButton").textContent =
+            "หยุดพัก";
+
+        updateTimer();
+
+        timerInterval = setInterval(() => {
+            remainingTime--;
+
+            updateTimer();
+
+            if (remainingTime <= 0) {
+                clearInterval(timerInterval);
+                timerInterval = null;
+
+                endRest();
+            }
+
+        }, 1000);
+    }
+
+    // เมื่อพักครบเวลา
+    function endRest() {
+        isResting = false;
+
+        remainingTime = restSeconds;
+        updateTimer();
+
+        playSound(1000);
+
+        currentReps = 0;
+
+        document.getElementById("repButton").disabled = false;
+
+        document.getElementById("timerButton").textContent =
+            "เริ่มพัก";
+
+        document.getElementById("statusMessage").textContent =
+            "พักครบแล้ว พร้อมเริ่มเซ็ตที่ " +
+            (completedSets + 1);
+
+        updateStats();
+    }
+
+    // ปุ่มจับเวลาพักแบบกดเอง
+    function toggleTimer() {
+        if (workoutFinished) return;
+
+        if (timerInterval) {
+            clearInterval(timerInterval);
+            timerInterval = null;
+
+            isResting = false;
+
+            document.getElementById("timerButton").textContent =
+                "เริ่มพัก";
+
+            document.getElementById("repButton").disabled =
+                !workoutStarted;
+
+            document.getElementById("statusMessage").textContent =
+                "หยุดเวลาพักแล้ว";
+
+            return;
+        }
+
+        if (!workoutStarted) {
+            document.getElementById("statusMessage").textContent =
+                "กรุณากดเริ่มออกกำลังกายก่อน";
+            return;
+        }
+
+        if (remainingTime <= 0) {
+            remainingTime = restSeconds;
+        }
+
+        isResting = true;
+
+        document.getElementById("repButton").disabled = true;
+
+        document.getElementById("timerButton").textContent =
+            "หยุดพัก";
+
+        document.getElementById("statusMessage").textContent =
+            "กำลังจับเวลาพัก";
+
+        timerInterval = setInterval(() => {
+            remainingTime--;
+
+            updateTimer();
+
+            if (remainingTime <= 0) {
+                clearInterval(timerInterval);
+                timerInterval = null;
+
+                endRest();
+            }
+        }, 1000);
+    }
+
+    // เมื่อครบทุกเซ็ต
+    function finishAllSets() {
+        workoutStarted = false;
+        workoutFinished = true;
+        isResting = false;
+
+        if (timerInterval) {
+            clearInterval(timerInterval);
+            timerInterval = null;
+        }
+
+        document.getElementById("repButton").disabled = true;
+
+        document.getElementById("startButton").textContent =
+            "เริ่มใหม่";
+
+        document.getElementById("timerButton").textContent =
+            "เริ่มพัก";
+
+        document.getElementById("statusMessage").textContent =
+            "🎉 ออกกำลังกายครบ " + targetSets +
+            " เซ็ตแล้ว! จบการออกกำลังกาย";
+
+            // ส่งข้อมูลเมื่อออกกำลังกายครบทุกเซ็ต
+            apiSets = completedSets;
+            apiReps = currentReps;
+            stopFitTrackAPI();
+
+
+        playSound(1100);
+    }
+
+    // จบการออกกำลังกายหรือเริ่มต้นใหม่
+    function finishWorkout() {
+        workoutStarted = false;
+        isResting = false;
+        workoutFinished = true;
+
+        if (timerInterval) {
+            clearInterval(timerInterval);
+            timerInterval = null;
+        }
+
+        document.getElementById("repButton").disabled = true;
+
+        document.getElementById("startButton").textContent =
+            "เริ่มใหม่";
+
+        document.getElementById("timerButton").textContent =
+            "เริ่มพัก";
+
+        remainingTime = restSeconds;
+        updateTimer();
+
+        document.getElementById("statusMessage").textContent =
+            "จบการออกกำลังกายแล้ว (ข้อมูลยังไม่ถูกบันทึก)";
+    }
+
+    // รีเซ็ตข้อมูลเพื่อเริ่มใหม่
+    function resetWorkout() {
+        if (timerInterval) {
+            clearInterval(timerInterval);
+            timerInterval = null;
+        }
+
+        currentReps = 0;
+        completedSets = 0;
+
+        workoutStarted = false;
+        isResting = false;
+        workoutFinished = false;
+
+        remainingTime = restSeconds;
+
+        document.getElementById("repButton").disabled = true;
+
+        document.getElementById("startButton").textContent =
+            "เริ่มออกกำลังกาย";
+
+        document.getElementById("timerButton").textContent =
+            "เริ่มพัก";
+
+        document.getElementById("statusMessage").textContent =
+            "พร้อมสำหรับการออกกำลังกาย";
+
+        updateTimer();
+        updateStats();
+    }
+
+    // เริ่มต้นหน้าเว็บ
+    updateTimer();
+    updateStats();
+
+    // ===============================
+// FITTRACK API CONNECTION
+// ===============================
+
+const API_BASE_URL = "http://localhost:3000";
+
+let apiReps = 0;
+let apiSets = 0;
+let apiSeconds = 0;
+let apiRunning = false;
+let apiTimer = null;
+
+async function sendFitTrackData() {
+    try {
+        const response = await fetch(`${API_BASE_URL}/api/workout`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                machine: new URLSearchParams(location.search)
+                    .get("machine") || "Chest Press",
+                reps: apiReps,
+                sets: apiSets,
+                duration: apiSeconds,
+                mode: "SIMULATION"
+            })
+        });
+
+        if (!response.ok) throw new Error("API Error");
+
+        console.log("FitTrack: ส่งข้อมูลสำเร็จ");
+    } catch (error) {
+        console.error("FitTrack API:", error);
+    }
+}
+
+async function checkFitTrackConnection() {
+    try {
+        const response = await fetch(`${API_BASE_URL}/api/status`);
+        if (!response.ok) throw new Error();
+
+        console.log("FitTrack API Connected");
+    } catch {
+        console.log("FitTrack API Disconnected");
+    }
+}
+
+// เริ่มจับเวลา
+function startFitTrackAPI() {
+    if (apiRunning) return;
+
+    apiRunning = true;
+
+    apiTimer = setInterval(() => {
+        apiSeconds++;
+    }, 1000);
+}
+
+// เพิ่มจำนวนครั้ง
+function addFitTrackAPIRep() {
+    if (!apiRunning) return;
+
+    apiReps++;
+    sendFitTrackData();
+}
+
+// จบเซต
+function finishFitTrackAPISet() {
+    if (!apiRunning) return;
+
+    apiSets++;
+    apiReps = 0;
+    sendFitTrackData();
+}
+
+// จบการออกกำลังกาย
+function stopFitTrackAPI() {
+    apiRunning = false;
+
+    if (apiTimer) {
+        clearInterval(apiTimer);
+        apiTimer = null;
+    }
+
+    sendFitTrackData();
+}
+
+checkFitTrackConnection();
+
+</script>
+
+</body>
+</html>

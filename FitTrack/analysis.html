@@ -1,0 +1,1065 @@
+
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FitTrack | Analysis</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<style>
+:root {
+    --bg:#0b1428;
+    --card:#172943;
+    --blue:#45bdf5;
+    --text:#ffffff;
+    --muted:#9bb4d8;
+    --green:#6bd5ae;
+}
+
+* {box-sizing:border-box;}
+
+body {
+    margin:0;
+    padding:20px 20px 100px;
+    background:var(--bg);
+    color:var(--text);
+    font-family:'Kanit',sans-serif;
+}
+
+.container {
+    max-width:1100px;
+    margin:auto;
+}
+
+.header {
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:25px;
+}
+
+.logo {
+    font-size:25px;
+    font-weight:700;
+}
+
+.logo small {
+    display:block;
+    color:var(--muted);
+    font-size:11px;
+    font-weight:400;
+    letter-spacing:2px;
+}
+
+.status {
+    background:#173e3a;
+    color:#6bd5ae;
+    padding:7px 13px;
+    border-radius:20px;
+    font-size:12px;
+}
+
+.card {
+    background:var(--card);
+    border:1px solid #263b58;
+    border-radius:18px;
+    padding:22px;
+    margin-bottom:18px;
+}
+
+.section-title {
+    font-size:16px;
+    font-weight:600;
+    margin-bottom:5px;
+}
+
+.section-sub {
+    color:var(--muted);
+    font-size:12px;
+    margin-bottom:18px;
+}
+
+.muted {
+    color:var(--muted);
+    font-size:12px;
+}
+
+/* HERO */
+
+.hero {
+    background:linear-gradient(120deg,#173750,#172943 70%);
+    border:1px solid #2d5271;
+}
+
+.hero-label {
+    color:#9bb4d8;
+    font-size:12px;
+    letter-spacing:1px;
+}
+
+.hero h1 {
+    font-size:25px;
+    margin:8px 0;
+}
+
+.hero-highlight {
+    color:var(--blue);
+    font-size:30px;
+    font-weight:700;
+}
+
+.hero p {
+    color:#c2d2e8;
+    font-size:13px;
+    line-height:1.8;
+}
+
+/* SCORE */
+
+.score-row {
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:15px;
+}
+
+.score {
+    font-size:36px;
+    font-weight:700;
+    color:var(--blue);
+}
+
+.score-icon {
+    width:60px;
+    height:60px;
+    border-radius:16px;
+    background:#203c5c;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    font-size:28px;
+    border:0;
+    cursor:pointer;
+    transition:.2s;
+}
+
+.score-icon:hover {
+    transform:scale(1.08);
+    background:#285477;
+}
+
+.progress-bg {
+    width:100%;
+    height:10px;
+    background:#2b405b;
+    border-radius:20px;
+    overflow:hidden;
+    margin:15px 0 8px;
+}
+
+.progress-fill {
+    height:100%;
+    background:linear-gradient(90deg,#45bdf5,#73d5ff);
+    border-radius:20px;
+    transition:width .4s;
+}
+
+/* CHART */
+
+.chart-wrap {
+    position:relative;
+    width:100%;
+    height:260px;
+}
+
+/* MUSCLE */
+
+.muscle-item {
+    margin-bottom:17px;
+}
+
+.muscle-info {
+    display:flex;
+    justify-content:space-between;
+    margin-bottom:7px;
+    font-size:13px;
+}
+
+.muscle-info span:last-child {
+    color:#78cbf5;
+}
+
+.muscle-bar {
+    height:9px;
+    background:#30435e;
+    border-radius:20px;
+    overflow:hidden;
+}
+
+.muscle-fill {
+    height:100%;
+    background:linear-gradient(90deg,#329bd8,#67d0ff);
+    border-radius:20px;
+}
+
+.empty {
+    text-align:center;
+    color:var(--muted);
+    padding:30px 15px;
+    line-height:1.8;
+}
+
+.hidden {
+    display:none !important;
+}
+
+/* RECOMMENDATION */
+
+.recommend {
+    background:linear-gradient(120deg,#173750,#193047);
+    border:1px solid #28516c;
+}
+
+.recommend-item {
+    display:flex;
+    align-items:flex-start;
+    gap:10px;
+    margin:13px 0;
+    color:#d4e5f5;
+    font-size:13px;
+}
+
+.check {
+    color:var(--green);
+    font-size:17px;
+}
+
+/* CALENDAR POPUP */
+
+.calendar-modal {
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,.75);
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    padding:15px;
+    z-index:2000;
+}
+
+.calendar-box {
+    width:100%;
+    max-width:390px;
+    background:#172943;
+    border:1px solid #34516f;
+    border-radius:20px;
+    padding:20px;
+}
+
+.calendar-header {
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:20px;
+}
+
+.calendar-header button {
+    background:#203c5c;
+    color:white;
+    border:0;
+    border-radius:9px;
+    padding:8px 13px;
+    cursor:pointer;
+    font-size:16px;
+}
+
+.calendar-grid {
+    display:grid;
+    grid-template-columns:repeat(7,1fr);
+    gap:7px;
+    text-align:center;
+}
+
+.calendar-day {
+    color:#9bb4d8;
+    font-size:12px;
+    padding:8px 0;
+}
+
+.calendar-date {
+    min-height:39px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    position:relative;
+    background:#203750;
+    border-radius:9px;
+    font-size:13px;
+}
+
+.calendar-date.active {
+    background:#24577b;
+    color:#fff;
+}
+
+.calendar-date.active::after {
+    content:"";
+    position:absolute;
+    bottom:4px;
+    width:5px;
+    height:5px;
+    border-radius:50%;
+    background:#62c9ff;
+}
+
+.calendar-date.today {
+    outline:1px solid #62c9ff;
+}
+
+.calendar-legend {
+    color:#9bb4d8;
+    font-size:12px;
+    margin-top:17px;
+}
+
+.calendar-close {
+    width:100%;
+    border:0;
+    background:#203c5c;
+    color:white;
+    padding:11px;
+    border-radius:10px;
+    margin-top:18px;
+    font-family:inherit;
+    cursor:pointer;
+}
+
+/* NAV */
+
+.nav {
+    position:fixed;
+    bottom:0;
+    left:0;
+    width:100%;
+    background:#111e34;
+    border-top:1px solid #263b58;
+    display:flex;
+    justify-content:center;
+    gap:10px;
+    padding:12px 8px;
+    z-index:1000;
+}
+
+.nav a {
+    color:#9bb4d8;
+    text-decoration:none;
+    font-size:12px;
+    padding:9px 13px;
+    border-radius:10px;
+    white-space:nowrap;
+}
+
+.nav a.active {
+    background:#203c5c;
+    color:#65c8ff;
+}
+
+/* RESPONSIVE */
+
+@media(max-width:600px) {
+    body {padding:15px 12px 90px;}
+
+    .card {padding:17px;}
+
+    .hero h1 {font-size:21px;}
+
+    .hero-highlight {font-size:26px;}
+
+    .number,.score {font-size:30px;}
+
+    .chart-wrap {height:220px;}
+
+    .nav {gap:0;}
+
+    .nav a {
+        padding:9px 8px;
+        font-size:11px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<header class="header">
+    <div class="logo">
+        FITTRACK
+        <small>WORKOUT ANALYSIS</small>
+    </div>
+    <div class="status">● ANALYSIS</div>
+</header>
+
+<!-- HERO -->
+
+<section class="card hero">
+    <div class="hero-label">YOUR FITNESS INSIGHT ✨</div>
+    <h1>วิเคราะห์การฝึกของคุณ</h1>
+    <div class="hero-highlight" id="insightTitle">
+        รอข้อมูลการฝึกของคุณ
+    </div>
+    <p id="insightText">
+        FitTrack จะนำข้อมูลการออกกำลังกายมาวิเคราะห์
+        เพื่อช่วยให้คุณเห็นรูปแบบการฝึกและพัฒนาการของตัวเอง
+    </p>
+</section>
+
+<!-- CONSISTENCY -->
+
+<section class="card">
+    <div class="section-title">01 · CONSISTENCY SCORE</div>
+    <div class="section-sub">
+        คะแนนความสม่ำเสมอในการออกกำลังกาย
+    </div>
+
+    <div class="score-row">
+        <div>
+            <div class="score" id="scoreNumber">0/100</div>
+            <div class="muted">Consistency Score</div>
+        </div>
+
+        <button class="score-icon"
+                onclick="openCalendar()"
+                aria-label="เปิดปฏิทิน">
+            📅
+        </button>
+    </div>
+
+    <div class="progress-bg">
+        <div class="progress-fill" id="scoreBar" style="width:0%"></div>
+    </div>
+
+    <div class="muted" id="consistencyText">
+        ยังไม่มีข้อมูลการออกกำลังกาย
+    </div>
+</section>
+
+<!-- PERFORMANCE -->
+
+<section class="card">
+    <div class="section-title">02 · PERFORMANCE TREND</div>
+    <div class="section-sub">
+        แนวโน้มจำนวนครั้งในการออกกำลังกายรายสัปดาห์
+    </div>
+
+    <div class="chart-wrap" id="trendWrap">
+        <canvas id="trendChart"></canvas>
+    </div>
+
+    <div class="empty hidden" id="trendEmpty">
+        ยังไม่มีข้อมูลเพียงพอสำหรับวิเคราะห์แนวโน้ม
+    </div>
+</section>
+
+<!-- MUSCLE BALANCE -->
+
+<section class="card">
+    <div class="section-title">03 · MUSCLE BALANCE</div>
+    <div class="section-sub">
+        เปรียบเทียบการฝึกกล้ามเนื้อแต่ละส่วน
+    </div>
+
+    <div id="muscleContainer">
+        <div class="empty">
+            ยังไม่มีข้อมูลการออกกำลังกาย
+        </div>
+    </div>
+</section>
+
+<!-- RECOMMENDATION -->
+
+<section class="card recommend">
+    <div class="section-title">
+        💡 04 · PERSONAL RECOMMENDATION
+    </div>
+
+    <h2 style="font-size:21px;margin:8px 0;">
+        คำแนะนำสำหรับคุณ
+    </h2>
+
+    <div id="recommendContainer">
+        <div class="recommend-item">
+            <span class="check">✦</span>
+            <span>เริ่มบันทึกการออกกำลังกายเพื่อรับคำแนะนำเฉพาะบุคคล</span>
+        </div>
+    </div>
+</section>
+
+</div>
+
+<!-- CALENDAR POPUP -->
+
+<div class="calendar-modal hidden"
+     id="calendarModal"
+     onclick="closeCalendarOutside(event)">
+
+    <div class="calendar-box">
+
+        <div class="calendar-header">
+            <button onclick="changeCalendarMonth(-1)">❮</button>
+            <strong id="calendarMonth">เดือน</strong>
+            <button onclick="changeCalendarMonth(1)">❯</button>
+        </div>
+
+        <div class="calendar-grid" id="calendarGrid"></div>
+
+        <div class="calendar-legend">
+            🔵 วันที่มีการออกกำลังกาย
+        </div>
+
+        <button class="calendar-close" onclick="closeCalendar()">
+            ปิดปฏิทิน
+        </button>
+
+    </div>
+</div>
+
+<!-- NAV -->
+
+<nav class="nav">
+    <a href="dashboard.html">⌂ หน้าหลัก</a>
+    <a href="statistics.html">▦ สถิติ</a>
+    <a href="history.html">▣ ประวัติ</a>
+    <a href="analysis.html" class="active">◈ วิเคราะห์</a>
+</nav>
+
+<script>
+
+/* READ WORKOUT DATA */
+
+function getWorkouts() {
+    try {
+        const data = JSON.parse(
+            localStorage.getItem("fittrackWorkouts") || "[]"
+        );
+
+        return Array.isArray(data) ? data : [];
+
+    } catch(error) {
+        return [];
+    }
+}
+
+/* DATE HELPERS */
+
+function getDate(item) {
+    const date = new Date(item.date);
+
+    return isNaN(date.getTime()) ? null : date;
+}
+
+function getWeekStart(date) {
+    const result = new Date(
+        date.getFullYear(),
+        date.getMonth(),
+        date.getDate()
+    );
+
+    const day = result.getDay();
+
+    result.setDate(
+        result.getDate() - ((day + 6) % 7)
+    );
+
+    result.setHours(0,0,0,0);
+
+    return result;
+}
+
+function formatDateKey(date) {
+    return [
+        date.getFullYear(),
+        String(date.getMonth()+1).padStart(2,"0"),
+        String(date.getDate()).padStart(2,"0")
+    ].join("-");
+}
+
+/* CONSISTENCY SCORE */
+
+function calculateConsistency(workouts) {
+
+    const today = new Date();
+    const uniqueDays = new Set();
+
+    workouts.forEach(item => {
+
+        const date = getDate(item);
+
+        if (!date) return;
+
+        const diff = Math.floor(
+            (
+                new Date(today.getFullYear(),today.getMonth(),today.getDate()) -
+                new Date(date.getFullYear(),date.getMonth(),date.getDate())
+            ) / 86400000
+        );
+
+        if (diff >= 0 && diff < 7) {
+            uniqueDays.add(formatDateKey(date));
+        }
+    });
+
+    const days = uniqueDays.size;
+    const score = Math.round((days/7)*100);
+
+    document.getElementById("scoreNumber").textContent =
+        score + "/100";
+
+    document.getElementById("scoreBar").style.width =
+        score + "%";
+
+    document.getElementById("consistencyText").textContent =
+        "ออกกำลังกาย " + days + " วัน จาก 7 วัน";
+
+    return days;
+}
+
+/* PERFORMANCE TREND */
+
+let trendChart = null;
+
+function renderTrend(workouts) {
+
+    const weeklyData = {};
+    const currentWeek = getWeekStart(new Date());
+
+    for (let i=3;i>=0;i--) {
+
+        const start = new Date(currentWeek);
+
+        start.setDate(start.getDate()-(i*7));
+
+        weeklyData[formatDateKey(start)] = 0;
+    }
+
+    workouts.forEach(item => {
+
+        const date = getDate(item);
+
+        if (!date) return;
+
+        const week = formatDateKey(getWeekStart(date));
+
+        if (weeklyData[week] !== undefined) {
+            weeklyData[week] += Number(item.reps)||0;
+        }
+    });
+
+    const labels = Object.keys(weeklyData);
+    const values = Object.values(weeklyData);
+
+    const hasData = values.some(value => value>0);
+
+    document.getElementById("trendWrap").classList.toggle(
+        "hidden",!hasData
+    );
+
+    document.getElementById("trendEmpty").classList.toggle(
+        "hidden",hasData
+    );
+
+    if (!hasData) return;
+
+    if (trendChart) trendChart.destroy();
+
+    trendChart = new Chart(
+        document.getElementById("trendChart"),
+        {
+            type:"line",
+
+            data:{
+                labels:labels.map((_,i)=>"สัปดาห์ "+(i+1)),
+
+                datasets:[{
+                    label:"จำนวนครั้ง",
+                    data:values,
+                    borderColor:"#45bdf5",
+                    backgroundColor:"rgba(69,189,245,0.13)",
+                    fill:true,
+                    tension:0.4,
+                    pointBackgroundColor:"#ffffff",
+                    pointRadius:5
+                }]
+            },
+
+            options:{
+                responsive:true,
+                maintainAspectRatio:false,
+
+                plugins:{
+                    legend:{
+                        labels:{
+                            color:"#c2d2e8",
+                            font:{family:"Kanit"}
+                        }
+                    }
+                },
+
+                scales:{
+                    x:{
+                        ticks:{color:"#9bb4d8"},
+                        grid:{display:false}
+                    },
+
+                    y:{
+                        beginAtZero:true,
+                        ticks:{color:"#9bb4d8"},
+                        grid:{
+                            color:"rgba(255,255,255,0.07)"
+                        }
+                    }
+                }
+            }
+        }
+    );
+}
+
+/* MUSCLE BALANCE */
+
+const muscleGroups = {
+
+    "อก":[
+        "Chest Press",
+        "Chest Press Machine",
+        "Smith Bench Press",
+        "Barbell Bench Press",
+        "Cable Fly"
+    ],
+
+    "หลัง":[
+        "Lat Pulldown",
+        "Seated Row",
+        "Cable Row"
+    ],
+
+    "ขา":[
+        "Leg Extension",
+        "Leg Curl",
+        "Leg Press",
+        "Hack Squat",
+        "Smith Squat",
+        "Barbell Squat"
+    ],
+
+    "ไหล่":[
+        "Shoulder Press",
+        "Shoulder Press Machine"
+    ],
+
+    "แขน":[
+        "Triceps Pushdown",
+        "Cable Biceps Curl"
+    ]
+};
+
+function renderMuscleBalance(workouts) {
+
+    const totals = {};
+
+    Object.keys(muscleGroups).forEach(group=>{
+        totals[group]=0;
+    });
+
+    workouts.forEach(item=>{
+
+        const machine = String(item.machine||"").toLowerCase();
+
+        Object.entries(muscleGroups).forEach(([group,machines])=>{
+
+            const matched = machines.some(name=>
+                name.toLowerCase()===machine
+            );
+
+            if (matched) {
+                totals[group]+=Number(item.reps)||0;
+            }
+        });
+    });
+
+    const total = Object.values(totals).reduce(
+        (sum,value)=>sum+value,0
+    );
+
+    const container = document.getElementById("muscleContainer");
+
+    if (total===0) {
+        container.innerHTML=
+            '<div class="empty">ยังไม่มีข้อมูลเพียงพอสำหรับวิเคราะห์กล้ามเนื้อ</div>';
+
+        return totals;
+    }
+
+    container.innerHTML="";
+
+    Object.entries(totals).forEach(([group,value])=>{
+
+        const percent=Math.round((value/total)*100);
+
+        const item=document.createElement("div");
+
+        item.className="muscle-item";
+
+        item.innerHTML=`
+            <div class="muscle-info">
+                <span>${group}</span>
+                <span>${percent}%</span>
+            </div>
+
+            <div class="muscle-bar">
+                <div class="muscle-fill"
+                     style="width:${percent}%"></div>
+            </div>
+        `;
+
+        container.appendChild(item);
+    });
+
+    return totals;
+}
+
+/* PERSONAL RECOMMENDATION */
+
+function renderRecommendations(workouts,days,totals) {
+
+    const container=document.getElementById(
+        "recommendContainer"
+    );
+
+    const recommendations=[];
+
+    if (workouts.length===0) {
+
+        recommendations.push(
+            "เริ่มบันทึกการออกกำลังกายเพื่อรับคำแนะนำเฉพาะบุคคล"
+        );
+
+    } else {
+
+        if (days<3) {
+            recommendations.push(
+                "ลองกำหนดวันออกกำลังกายให้สม่ำเสมอมากขึ้น"
+            );
+        } else {
+            recommendations.push(
+                "รักษาความสม่ำเสมอในการออกกำลังกายต่อไป"
+            );
+        }
+
+        const sorted=Object.entries(totals)
+            .sort((a,b)=>a[1]-b[1]);
+
+        const lowest=sorted[0];
+        const highest=sorted[sorted.length-1];
+
+        if (highest[1]>0 && lowest[1]<highest[1]) {
+
+            recommendations.push(
+                "กลุ่มกล้ามเนื้อ"+lowest[0]+
+                "มีสัดส่วนการฝึกน้อยที่สุดเมื่อเทียบกับกลุ่มอื่น"
+            );
+
+        } else {
+
+            recommendations.push(
+                "ลองฝึกกล้ามเนื้อหลายส่วนให้หลากหลาย"
+            );
+        }
+
+        recommendations.push(
+            "ติดตามจำนวนครั้งในการฝึกเพื่อดูพัฒนาการของตัวเอง"
+        );
+    }
+
+    container.innerHTML="";
+
+    recommendations.forEach(message=>{
+
+        const item=document.createElement("div");
+
+        item.className="recommend-item";
+
+        const icon=document.createElement("span");
+        icon.className="check";
+        icon.textContent="✦";
+
+        const text=document.createElement("span");
+        text.textContent=message;
+
+        item.append(icon,text);
+
+        container.appendChild(item);
+    });
+}
+
+/* CALENDAR POPUP */
+
+let calendarDate=new Date();
+
+function openCalendar() {
+
+    calendarDate=new Date();
+
+    renderCalendar();
+
+    document.getElementById("calendarModal")
+        .classList.remove("hidden");
+}
+
+function closeCalendar() {
+
+    document.getElementById("calendarModal")
+        .classList.add("hidden");
+}
+
+function closeCalendarOutside(event) {
+
+    if (event.target.id==="calendarModal") {
+        closeCalendar();
+    }
+}
+
+function changeCalendarMonth(amount) {
+
+    calendarDate.setMonth(
+        calendarDate.getMonth()+amount
+    );
+
+    renderCalendar();
+}
+
+function renderCalendar() {
+
+    const grid=document.getElementById("calendarGrid");
+
+    const year=calendarDate.getFullYear();
+    const month=calendarDate.getMonth();
+
+    const workouts=getWorkouts();
+
+    const activeDates=new Set();
+
+    workouts.forEach(item=>{
+
+        const date=getDate(item);
+
+        if (date) {
+            activeDates.add(formatDateKey(date));
+        }
+    });
+
+    document.getElementById("calendarMonth").textContent =
+        calendarDate.toLocaleDateString(
+            "th-TH",
+            {month:"long",year:"numeric"}
+        );
+
+    grid.innerHTML="";
+
+    ["จ","อ","พ","พฤ","ศ","ส","อา"].forEach(day=>{
+
+        const el=document.createElement("div");
+
+        el.className="calendar-day";
+        el.textContent=day;
+
+        grid.appendChild(el);
+    });
+
+    const firstDay=(
+        new Date(year,month,1).getDay()+6
+    )%7;
+
+    const totalDays=new Date(
+        year,month+1,0
+    ).getDate();
+
+    for(let i=0;i<firstDay;i++) {
+        grid.appendChild(document.createElement("div"));
+    }
+
+    const today=new Date();
+
+    for(let day=1;day<=totalDays;day++) {
+
+        const date=new Date(year,month,day);
+        const key=formatDateKey(date);
+
+        const el=document.createElement("div");
+
+        el.className="calendar-date";
+        el.textContent=day;
+
+        if(activeDates.has(key)) {
+            el.classList.add("active");
+            el.title="มีการออกกำลังกาย";
+        }
+
+        if(
+            day===today.getDate() &&
+            month===today.getMonth() &&
+            year===today.getFullYear()
+        ) {
+            el.classList.add("today");
+        }
+
+        grid.appendChild(el);
+    }
+}
+
+/* MAIN ANALYSIS */
+
+function renderAnalysis() {
+
+    const workouts=getWorkouts();
+
+    const insightTitle=document.getElementById("insightTitle");
+    const insightText=document.getElementById("insightText");
+
+    if(workouts.length===0) {
+
+        insightTitle.textContent="รอข้อมูลการฝึกของคุณ ✨";
+
+        insightText.textContent=
+            "เมื่อมีการบันทึกการออกกำลังกาย FitTrack จะวิเคราะห์ความสม่ำเสมอ แนวโน้ม และกลุ่มกล้ามเนื้อให้โดยอัตโนมัติ";
+
+    } else {
+
+        insightTitle.textContent="มาดูพัฒนาการของคุณกัน! ✨";
+
+        insightText.textContent=
+            "FitTrack รวบรวมข้อมูลการฝึก "+
+            workouts.length+
+            " รายการ เพื่อวิเคราะห์รูปแบบการออกกำลังกายของคุณ";
+    }
+
+    const days=calculateConsistency(workouts);
+
+    renderTrend(workouts);
+
+    const totals=renderMuscleBalance(workouts);
+
+    renderRecommendations(workouts,days,totals);
+}
+
+/* START */
+
+renderAnalysis();
+
+</script>
+
+</body>
+</html>

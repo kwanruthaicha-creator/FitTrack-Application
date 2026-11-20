@@ -1,0 +1,249 @@
+
+/* =========================
+   FITTRACK - MAIN STYLE
+========================= */
+
+@import url('https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Kanit', sans-serif;
+}
+
+body {
+    background: #080d18;
+    color: #ffffff;
+    min-height: 100vh;
+}
+
+/* =========================
+   LOGIN AND REGISTER LAYOUT
+========================= */
+
+.login-container {
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 30px 15px;
+
+    background:
+        radial-gradient(circle at 15% 20%, #102b53 0, transparent 35%),
+        radial-gradient(circle at 85% 80%, #10234a 0, transparent 35%),
+        #080d18;
+}
+
+.login-box {
+    width: 100%;
+    max-width: 440px;
+    padding: 40px;
+    background: rgba(17, 27, 46, 0.95);
+    border: 1px solid #263b5b;
+    border-radius: 20px;
+    box-shadow: 0 20px 70px rgba(0, 0, 0, 0.4);
+}
+
+/* Register ให้กว้างกว่า Login เล็กน้อย */
+
+.register-box {
+    max-width: 480px;
+}
+
+/* =========================
+   LOGO AND TEXT
+========================= */
+
+.logo {
+    text-align: center;
+    font-size: 38px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    color: #4b9cff;
+    margin-bottom: 5px;
+}
+
+.subtitle {
+    text-align: center;
+    color: #91a4c0;
+    font-size: 13px;
+    margin-bottom: 35px;
+}
+
+.login-box h2 {
+    font-size: 25px;
+    font-weight: 500;
+    margin-bottom: 5px;
+}
+
+.description {
+    color: #91a4c0;
+    font-size: 14px;
+    margin-bottom: 25px;
+}
+
+/* =========================
+   FORM INPUT
+========================= */
+
+label {
+    display: block;
+    color: #d5e1f3;
+    font-size: 14px;
+    margin-bottom: 8px;
+}
+
+input {
+    display: block;
+    width: 100%;
+    padding: 14px 15px;
+    margin-bottom: 20px;
+
+    background: #0b1425;
+    border: 1px solid #304563;
+    border-radius: 10px;
+
+    color: white;
+    font-size: 14px;
+    outline: none;
+}
+
+input::placeholder {
+    color: #71839d;
+}
+
+input:focus {
+    border-color: #398bff;
+    box-shadow: 0 0 0 3px rgba(57, 139, 255, 0.12);
+}
+
+/* =========================
+   PASSWORD FIELD
+========================= */
+
+.password-wrapper {
+    position: relative;
+    width: 100%;
+}
+
+.password-wrapper input {
+    padding-right: 75px;
+    margin-bottom: 5px;
+}
+
+/* ปุ่มแสดงรหัสผ่าน */
+
+.password-wrapper .toggle-password {
+    position: absolute;
+    top: 50%;
+    right: 10px;
+    transform: translateY(-50%);
+
+    width: auto;
+    padding: 5px 8px;
+    margin: 0;
+
+    background: transparent;
+    border: none;
+    box-shadow: none;
+
+    color: #55a5ff;
+    font-size: 12px;
+    cursor: pointer;
+}
+
+.password-wrapper .toggle-password:hover {
+    background: transparent;
+    transform: translateY(-50%);
+    box-shadow: none;
+    color: white;
+}
+
+/* คำแนะนำรหัสผ่าน */
+
+.password-hint {
+    color: #91a4c0;
+    font-size: 12px;
+    margin: 6px 0 20px;
+}
+
+/* =========================
+   ERROR MESSAGE
+========================= */
+
+.field-error {
+    color: #ff6b6b;
+    font-size: 12px;
+    margin: 4px 0 15px;
+}
+
+.field-error:empty {
+    display: none;
+}
+
+/* =========================
+   MAIN BUTTON
+========================= */
+
+.login-box button[type="submit"] {
+    display: block;
+    width: 100%;
+    padding: 14px;
+    margin-top: 8px;
+
+    background: linear-gradient(90deg, #2475ee, #399eff);
+    border: none;
+    border-radius: 10px;
+
+    color: white;
+    font-size: 16px;
+    font-weight: 500;
+
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.login-box button[type="submit"]:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(43, 133, 255, 0.3);
+}
+
+/* =========================
+   LINK
+========================= */
+
+.register-link {
+    text-align: center;
+    color: #91a4c0;
+    font-size: 14px;
+    margin-top: 25px;
+}
+
+.register-link a {
+    color: #55a5ff;
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.register-link a:hover {
+    color: white;
+}
+
+/* =========================
+   MOBILE RESPONSIVE
+========================= */
+
+@media (max-width: 480px) {
+    .login-box {
+        padding: 30px 22px;
+    }
+
+    .logo {
+        font-size: 32px;
+    }
+
+    .login-box h2 {
+        font-size: 22px;
+    }
+}

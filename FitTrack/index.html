@@ -1,0 +1,75 @@
+
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FitTrack | Login</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div class="login-container">
+
+        <div class="login-box">
+
+            <h1 class="logo">FitTrack</h1>
+            <p class="subtitle">ระบบติดตามและวิเคราะห์การออกกำลังกาย</p>
+
+            <h2>เข้าสู่ระบบ</h2>
+            <p class="description">ยินดีต้อนรับกลับมา</p>
+
+            <form id="loginForm">
+
+                <label for="email">อีเมล</label>
+                <input
+                    type="email"
+                    id="email"
+                    placeholder="กรอกอีเมลของคุณ"
+                    required
+                >
+
+                <label for="password">รหัสผ่าน</label>
+                <input
+                    type="password"
+                    id="password"
+                    placeholder="กรอกรหัสผ่าน"
+                    required
+                >
+
+                <button type="submit">เข้าสู่ระบบ</button>
+
+            </form>
+
+            <p class="register-link">
+                ยังไม่มีบัญชี?
+                <a href="register.html">สมัครสมาชิก</a>
+            </p>
+
+        </div>
+
+    </div>
+
+    <script src="script.js"></script>
+
+    <script>
+        const loginForm = document.getElementById("loginForm");
+
+        loginForm.addEventListener("submit", function(event) {
+            event.preventDefault();
+
+            const email = document.getElementById("email").value.trim();
+            const password = document.getElementById("password").value;
+
+            if (email === "" || password === "") {
+                alert("กรุณากรอกอีเมลและรหัสผ่าน");
+                return;
+            }
+
+            window.location.href = "dashboard.html";
+        });
+    </script>
+
+</body>
+</html>
