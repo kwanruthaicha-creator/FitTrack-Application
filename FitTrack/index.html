@@ -5,13 +5,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>FitTrack | Login</title>
-
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
     <div class="login-container">
-
         <div class="login-box">
 
             <h1 class="logo">FitTrack</h1>
@@ -21,7 +19,6 @@
             <p class="description">ยินดีต้อนรับกลับมา</p>
 
             <form id="loginForm">
-
                 <label for="email">อีเมล</label>
                 <input
                     type="email"
@@ -39,7 +36,6 @@
                 >
 
                 <button type="submit">เข้าสู่ระบบ</button>
-
             </form>
 
             <p class="register-link">
@@ -48,26 +44,21 @@
             </p>
 
         </div>
-
     </div>
 
-    <script src="script.js"></script>
-
     <script>
-        const loginForm = document.getElementById("loginForm");
-
-        loginForm.addEventListener("submit", function(event) {
+        document.getElementById("loginForm").addEventListener("submit", function(event) {
             event.preventDefault();
 
             const email = document.getElementById("email").value.trim();
             const password = document.getElementById("password").value;
 
-            if (email === "" || password === "") {
+            if (!email || !password) {
                 alert("กรุณากรอกอีเมลและรหัสผ่าน");
                 return;
             }
 
-            window.location.href = "dashboard.html";
+            window.location.href = "FitTrack_dashboard_connected.html";
         });
     </script>
 
