@@ -1,4 +1,4 @@
-```html
+
 <!DOCTYPE html>
 <html lang="th">
 <head>
@@ -24,7 +24,6 @@
 }
 
 * {box-sizing:border-box}
-
 html {scroll-behavior:smooth;scroll-padding-top:20px}
 
 body {
@@ -85,13 +84,8 @@ button {font-family:inherit;cursor:pointer}
 }
 
 main {padding:28px 4% 115px}
-
 .welcome {margin-bottom:18px}
-
-.welcome h1 {
-    font-size:25px;
-    margin:0;
-}
+.welcome h1 {font-size:25px;margin:0}
 
 .welcome p {
     color:var(--muted);
@@ -145,11 +139,7 @@ main {padding:28px 4% 115px}
 }
 
 .section-title {margin-bottom:17px}
-
-.section-title h2 {
-    margin:0;
-    font-size:19px;
-}
+.section-title h2 {margin:0;font-size:19px}
 
 .section-title p {
     color:var(--muted);
@@ -232,16 +222,8 @@ main {padding:28px 4% 115px}
 }
 
 .category-info {padding:12px}
-
-.category-info strong {
-    display:block;
-    font-size:14px;
-}
-
-.category-info small {
-    color:var(--muted);
-    font-size:12px;
-}
+.category-info strong {display:block;font-size:14px}
+.category-info small {color:var(--muted);font-size:12px}
 
 /* MACHINE */
 
@@ -281,15 +263,8 @@ main {padding:28px 4% 115px}
     font-size:22px;
 }
 
-.machine-card strong {
-    font-size:13px;
-    display:block;
-}
-
-.machine-card small {
-    font-size:11px;
-    color:var(--muted);
-}
+.machine-card strong {font-size:13px;display:block}
+.machine-card small {font-size:11px;color:var(--muted)}
 
 .back-button {
     border:1px solid var(--border);
@@ -317,10 +292,7 @@ main {padding:28px 4% 115px}
     margin-bottom:18px;
 }
 
-.detail-header h2 {
-    margin:0;
-    font-size:22px;
-}
+.detail-header h2 {margin:0;font-size:22px}
 
 .change-button {
     border:1px solid var(--blue);
@@ -344,10 +316,7 @@ main {padding:28px 4% 115px}
     min-width:0;
 }
 
-.panel h3 {
-    font-size:16px;
-    margin:0 0 13px;
-}
+.panel h3 {font-size:16px;margin:0 0 13px}
 
 .muscle-box {
     display:flex;
@@ -391,10 +360,7 @@ main {padding:28px 4% 115px}
     font-size:14px;
 }
 
-.metric small {
-    color:var(--muted);
-    font-size:11px;
-}
+.metric small {color:var(--muted);font-size:11px}
 
 .note {
     background:#102d4b;
@@ -501,10 +467,7 @@ main {padding:28px 4% 115px}
     margin-top:15px;
 }
 
-.device-box strong {
-    color:var(--yellow);
-    font-size:13px;
-}
+.device-box strong {color:var(--yellow);font-size:13px}
 
 .demo {
     display:inline-block;
@@ -553,10 +516,7 @@ main {padding:28px 4% 115px}
     font-size:21px;
 }
 
-.summary-item small {
-    color:var(--muted);
-    font-size:11px;
-}
+.summary-item small {color:var(--muted);font-size:11px}
 
 .empty-stat {
     color:var(--muted);
@@ -628,7 +588,6 @@ main {padding:28px 4% 115px}
     <p>เลือกเครื่องออกกำลังกายเพื่อเริ่มต้นใช้งาน</p>
 </div>
 
-<!-- DEMO MODE NOTICE -->
 <div class="demo-banner">
     <div class="demo-banner-icon">📊</div>
     <div>
@@ -637,7 +596,6 @@ main {padding:28px 4% 115px}
     </div>
 </div>
 
-<!-- STEP 1 -->
 <section class="section" id="categorySection">
     <div class="section-title">
         <h2>01. เลือกหมวดหมู่เครื่องออกกำลังกาย</h2>
@@ -646,7 +604,6 @@ main {padding:28px 4% 115px}
     <div class="category-grid" id="categoryGrid"></div>
 </section>
 
-<!-- STEP 2 -->
 <section class="section hidden" id="machineSection">
     <button class="back-button" onclick="backToCategories()">← กลับไปเลือกหมวดหมู่</button>
     <div class="section-title">
@@ -657,7 +614,6 @@ main {padding:28px 4% 115px}
     <div class="machine-grid" id="machineGrid"></div>
 </section>
 
-<!-- STEP 3 -->
 <section class="section hidden" id="detailSection">
 
     <button class="back-button" onclick="backToMachines()">← กลับไปเลือกเครื่อง</button>
@@ -751,7 +707,6 @@ main {padding:28px 4% 115px}
 
 </section>
 
-<!-- MACHINE STATISTICS -->
 <section class="section" id="summary">
     <div class="section-title">
         <h2>📊 สถิติล่าสุดของเครื่องที่เลือก</h2>
@@ -800,7 +755,7 @@ main {padding:28px 4% 115px}
 
 <!-- BOTTOM NAVIGATION -->
 <nav class="nav">
-    <a href="dashboard.html" class="active">⌂ หน้าหลัก</a>
+    <a href="FitTrack_dashboard_connected.html" class="active">⌂ หน้าหลัก</a>
     <a href="statistics.html">▦ สถิติเครื่อง</a>
     <a href="history.html">▣ ประวัติ</a>
     <a href="analysis.html">◈ วิเคราะห์</a>
@@ -813,7 +768,6 @@ main {padding:28px 4% 115px}
 </div>
 
 <script>
-
 const categories = {
     "Weight Stack": {
         desc:"เครื่องแมชชีนแบบแผ่นน้ำหนัก",
@@ -842,7 +796,6 @@ const categories = {
 };
 
 const machineData = {
-
 "Chest Press": {
 muscle:"กล้ามเนื้อหน้าอก หัวไหล่ด้านหน้า และต้นแขนด้านหลัง",
 reps:"8-12", sets:"3-4", rest:"60-90 วิ", time:"12-18 นาที",
@@ -853,7 +806,6 @@ avoid:["แผ่นน้ำหนักที่อยู่นิ่ง","ร
 guidance:["นั่งให้หลังแนบพนักพิง","ดันมือจับออกอย่างควบคุม","กลับสู่ตำแหน่งเริ่มต้นอย่างช้า ๆ"],
 warnings:["ปรับเบาะให้อยู่ในตำแหน่งเหมาะสม","ไม่ใช้น้ำหนักเกินความสามารถ","ไม่ปล่อยแผ่นน้ำหนักกระแทกกัน","ตรวจสอบว่า FitTrack ไม่กีดขวางเครื่อง"]
 },
-
 "Lat Pulldown": {
 muscle:"กล้ามเนื้อหลังส่วนกว้าง หัวไหล่ด้านหลัง และแขนส่วนหน้า",
 reps:"8-12", sets:"3-4", rest:"60-90 วิ", time:"12-18 นาที",
@@ -864,7 +816,6 @@ avoid:["สายเคเบิลและรอก","รางนำทาง
 guidance:["นั่งให้มั่นคง","ดึงบาร์ลงด้านหน้าอย่างควบคุม","ค่อย ๆ ปล่อยบาร์กลับ"],
 warnings:["ไม่โยกตัวหรือเอนหลังมากเกินไป","ไม่ดึงกระชาก","ระวังสายเคเบิลและรอก"]
 },
-
 "Seated Row": {
 muscle:"กล้ามเนื้อหลังส่วนกลาง หลังส่วนกว้าง และแขน",
 reps:"8-12", sets:"3-4", rest:"60-90 วิ", time:"12-18 นาที",
@@ -875,7 +826,6 @@ avoid:["สายเคเบิลและรอก","มือจับแล
 guidance:["นั่งให้มั่นคง","ดึงมือจับเข้าหาลำตัว","ปล่อยกลับอย่างช้า ๆ"],
 warnings:["ไม่กระชากมือจับ","ไม่เอนตัวไปด้านหลังมากเกินไป","ควบคุมหลังให้อยู่ในท่าที่เหมาะสม"]
 },
-
 "Shoulder Press": {
 muscle:"กล้ามเนื้อหัวไหล่ด้านหน้าและด้านข้าง รวมถึงต้นแขนด้านหลัง",
 reps:"8-12", sets:"3-4", rest:"60-90 วิ", time:"12-18 นาที",
@@ -886,7 +836,6 @@ avoid:["แขนโยกและจุดหมุน","มือจับแ
 guidance:["นั่งให้หลังแนบพนักพิง","ดันมือจับขึ้นอย่างควบคุม","ลดมือจับกลับ"],
 warnings:["ปรับเบาะให้เหมาะสม","ไม่แอ่นหลังมากเกินไป","ไม่ใช้น้ำหนักเกินความสามารถ"]
 },
-
 "Leg Extension": {
 muscle:"กล้ามเนื้อต้นขาด้านหน้า",
 reps:"8-12", sets:"3-4", rest:"60-90 วิ", time:"12-18 นาที",
@@ -897,7 +846,6 @@ avoid:["ลูกกลิ้งรองขาและแขนโยก","จ
 guidance:["นั่งให้หลังแนบพนักพิง","เหยียดขาขึ้นอย่างควบคุม","ลดขากลับช้า ๆ"],
 warnings:["ปรับลูกกลิ้งให้เหมาะสม","ไม่เหยียดขากระแทก","ระวังส่วนที่เคลื่อนที่"]
 },
-
 "Leg Curl": {
 muscle:"กล้ามเนื้อต้นขาด้านหลัง",
 reps:"8-12", sets:"3-4", rest:"60-90 วิ", time:"12-18 นาที",
@@ -908,7 +856,6 @@ avoid:["ลูกกลิ้งและส่วนรองรับขา","
 guidance:["จัดท่าให้อยู่ในตำแหน่งเหมาะสม","งอขาเข้าหาลำตัว","ค่อย ๆ กลับสู่ตำแหน่งเริ่มต้น"],
 warnings:["ปรับลูกกลิ้งให้เหมาะสม","ไม่ใช้แรงเหวี่ยง","ควบคุมการเคลื่อนไหว"]
 },
-
 "Leg Press": {
 muscle:"กล้ามเนื้อต้นขาด้านหน้า ต้นขาด้านหลัง และสะโพก",
 reps:"8-12", sets:"3-4", rest:"60-90 วิ", time:"12-18 นาที",
@@ -919,7 +866,6 @@ avoid:["รางเลื่อนและลูกล้อ","ระบบล
 guidance:["จัดตำแหน่งหลังและเท้าให้เหมาะสม","ดันแท่นออกอย่างควบคุม","กลับสู่ตำแหน่งเริ่มต้น"],
 warnings:["ไม่ล็อกเข่าจนสุด","ไม่ลดน้ำหนักเร็วหรือกระแทก","ตรวจสอบระบบล็อกก่อนใช้งาน"]
 },
-
 "Hack Squat": {
 muscle:"กล้ามเนื้อต้นขาด้านหน้าและกล้ามเนื้อสะโพก",
 reps:"8-12", sets:"3-4", rest:"60-90 วิ", time:"12-18 นาที",
@@ -930,7 +876,6 @@ avoid:["รางเลื่อนและลูกล้อ","แผ่นร
 guidance:["จัดตำแหน่งเท้าให้มั่นคง","ย่อตัวอย่างควบคุม","กลับขึ้นโดยไม่กระแทก"],
 warnings:["ตรวจสอบระบบล็อกก่อนใช้งาน","ควบคุมการย่อตัว","ระวังส่วนเลื่อนของเครื่อง"]
 },
-
 "Chest Press Machine": {
 muscle:"กล้ามเนื้อหน้าอกและหัวไหล่",
 reps:"8-12", sets:"3-4", rest:"60-90 วิ", time:"12-18 นาที",
@@ -941,7 +886,6 @@ avoid:["มือจับและตำแหน่งจับของผู
 guidance:["จัดท่านั่งให้มั่นคง","ดันมือจับออก","กลับสู่ตำแหน่งเดิม"],
 warnings:["ปรับเบาะให้เหมาะสม","ไม่ดันกระแทก","ตรวจสอบชิ้นส่วนเคลื่อนที่"]
 },
-
 "Shoulder Press Machine": {
 muscle:"กล้ามเนื้อหัวไหล่และต้นแขนด้านหลัง",
 reps:"8-12", sets:"3-4", rest:"60-90 วิ", time:"12-18 นาที",
@@ -952,7 +896,6 @@ avoid:["มือจับและบริเวณจับเครื่อ
 guidance:["นั่งให้มั่นคง","ดันมือจับขึ้น","ลดมือจับกลับอย่างควบคุม"],
 warnings:["ปรับเบาะให้เหมาะสม","ไม่แอ่นหลังมากเกินไป","ระวังจุดหมุน"]
 },
-
 "Smith Squat": {
 muscle:"กล้ามเนื้อต้นขาและสะโพก",
 reps:"5-10", sets:"3-5", rest:"90-120 วิ", time:"15-25 นาที",
@@ -963,7 +906,6 @@ avoid:["ตำแหน่งที่มือใช้จับบาร์","
 guidance:["ยืนให้เท้ามั่นคง","ย่อตัวอย่างควบคุม","กลับขึ้นสู่ท่ายืน"],
 warnings:["ตรวจสอบระบบล็อกบาร์","จัดแนวหลังและหัวเข่าให้เหมาะสม","ไม่ให้ FitTrack กีดขวางการจับบาร์"]
 },
-
 "Smith Bench Press": {
 muscle:"กล้ามเนื้อหน้าอก หัวไหล่ และต้นแขนด้านหลัง",
 reps:"5-10", sets:"3-5", rest:"90-120 วิ", time:"15-25 นาที",
@@ -974,7 +916,6 @@ avoid:["บริเวณมือจับบาร์","รางเลื่
 guidance:["จัดท่านอนให้มั่นคง","ดันบาร์ขึ้นอย่างควบคุม","ลดบาร์กลับอย่างระมัดระวัง"],
 warnings:["ตรวจสอบระบบล็อกก่อนใช้งาน","จัดตำแหน่งตัวให้เหมาะสม","ไม่ติดอุปกรณ์ในตำแหน่งจับบาร์"]
 },
-
 "Barbell Squat": {
 muscle:"กล้ามเนื้อต้นขา สะโพก และแกนกลางลำตัว",
 reps:"5-10", sets:"3-5", rest:"90-120 วิ", time:"15-25 นาที",
@@ -985,7 +926,6 @@ avoid:["บริเวณมือจับบาร์","ปลอกบาร
 guidance:["ยืนให้เท้ามั่นคง","ย่อตัวอย่างควบคุม","กลับขึ้นสู่ท่ายืน"],
 warnings:["ควบคุมแนวหลังและหัวเข่า","ใช้พื้นที่ที่ปลอดภัย","ไม่ติดอุปกรณ์ที่อาจหลุดระหว่างยก"]
 },
-
 "Barbell Bench Press": {
 muscle:"กล้ามเนื้อหน้าอก หัวไหล่ และต้นแขนด้านหลัง",
 reps:"5-10", sets:"3-5", rest:"90-120 วิ", time:"15-25 นาที",
@@ -996,7 +936,6 @@ avoid:["ตำแหน่งมือจับบาร์","ปลอกบา
 guidance:["จัดท่านอนให้มั่นคง","ดันบาร์ขึ้นอย่างควบคุม","ลดบาร์กลับอย่างระมัดระวัง"],
 warnings:["ตรวจสอบพื้นที่และอุปกรณ์","ควบคุมการเคลื่อนไหว","ไม่ติดอุปกรณ์ในตำแหน่งจับบาร์"]
 },
-
 "Cable Row": {
 muscle:"กล้ามเนื้อหลังและแขนส่วนหน้า",
 reps:"8-12", sets:"3-4", rest:"60-90 วิ", time:"12-18 นาที",
@@ -1007,7 +946,6 @@ avoid:["สายเคเบิลและรอก","มือจับแล
 guidance:["นั่งให้มั่นคง","ดึงมือจับเข้าหาลำตัว","ปล่อยกลับอย่างช้า ๆ"],
 warnings:["ไม่ดึงกระชาก","ควบคุมสายเคเบิล","ระวังสายเคเบิลและรอก"]
 },
-
 "Triceps Pushdown": {
 muscle:"กล้ามเนื้อต้นแขนด้านหลัง",
 reps:"8-12", sets:"3-4", rest:"60-90 วิ", time:"10-15 นาที",
@@ -1018,7 +956,6 @@ avoid:["สายเคเบิลและรอก","มือจับแล
 guidance:["ยืนให้มั่นคง","กดมือจับลงอย่างควบคุม","กลับสู่ตำแหน่งเริ่มต้น"],
 warnings:["ไม่ใช้แรงเหวี่ยง","ควบคุมข้อศอก","ระวังสายเคเบิล"]
 },
-
 "Cable Fly": {
 muscle:"กล้ามเนื้อหน้าอก",
 reps:"8-12", sets:"3-4", rest:"60-90 วิ", time:"10-15 นาที",
@@ -1029,7 +966,6 @@ avoid:["สายเคเบิลและรอก","มือจับแล
 guidance:["ยืนให้มั่นคง","รวบมือจับเข้าหากัน","กางแขนกลับอย่างควบคุม"],
 warnings:["เลือกน้ำหนักที่ควบคุมได้","ไม่เหยียดแขนกระแทก","ระวังสายเคเบิล"]
 },
-
 "Cable Biceps Curl": {
 muscle:"กล้ามเนื้อต้นแขนด้านหน้า",
 reps:"8-12", sets:"3-4", rest:"60-90 วิ", time:"10-15 นาที",
@@ -1040,7 +976,6 @@ avoid:["สายเคเบิลและรอก","มือจับแล
 guidance:["ยืนให้มั่นคง","งอข้อศอกยกมือจับขึ้น","ลดกลับอย่างช้า ๆ"],
 warnings:["ไม่โยกตัวเพื่อช่วยยก","ควบคุมการเคลื่อนไหว","ระวังสายเคเบิลและรอก"]
 }
-
 };
 
 let selectedCategory = "";
@@ -1187,7 +1122,6 @@ function selectMachine(name) {
 /* LATEST DEMO STATISTICS */
 
 function renderLatestStats(name) {
-
     const stats = getDemoStats(name);
 
     document.getElementById("latestMachineName").textContent = name;
@@ -1209,7 +1143,6 @@ function renderLatestStats(name) {
 /* START WORKOUT */
 
 function startSelectedWorkout() {
-
     if (!selectedMachine) {
         alert("กรุณาเลือกเครื่องออกกำลังกายก่อน");
         return;
@@ -1265,40 +1198,79 @@ document.querySelectorAll(".nav a").forEach(link => {
 
 /* API CONNECTION */
 
-const API_BASE_URL = "http://localhost:3000";
+/*
+  เปิดในเครื่อง:
+  ใช้ API ที่ http://localhost:3000
+
+  เปิดผ่าน Netlify:
+  แสดง DEMO MODE เพราะ localhost ของผู้ใช้
+  ไม่ใช่เซิร์ฟเวอร์ API ที่เผยแพร่บนอินเทอร์เน็ต
+*/
+
+const IS_LOCAL = ["localhost", "127.0.0.1"].includes(window.location.hostname);
+const API_BASE_URL = IS_LOCAL ? "http://localhost:3000" : "";
 
 function formatDuration(seconds) {
-    const totalMinutes = Math.floor((Number(seconds) || 0) / 60);
-    const remainingSeconds = (Number(seconds) || 0) % 60;
-    if (totalMinutes > 0 && remainingSeconds > 0) return `${totalMinutes} นาที ${remainingSeconds} วินาที`;
+    const totalSeconds = Number(seconds) || 0;
+    const totalMinutes = Math.floor(totalSeconds / 60);
+    const remainingSeconds = totalSeconds % 60;
+
+    if (totalMinutes > 0 && remainingSeconds > 0) {
+        return `${totalMinutes} นาที ${remainingSeconds} วินาที`;
+    }
+
     if (totalMinutes > 0) return `${totalMinutes} นาที`;
+
     return `${remainingSeconds} วินาที`;
 }
 
 function formatWorkoutDate(value) {
     if (!value) return "-";
+
     const date = new Date(value);
+
     if (Number.isNaN(date.getTime())) return "-";
+
     return date.toLocaleString("th-TH", {
-        day: "2-digit", month: "2-digit", year: "numeric",
-        hour: "2-digit", minute: "2-digit"
+        day:"2-digit",
+        month:"2-digit",
+        year:"numeric",
+        hour:"2-digit",
+        minute:"2-digit"
     });
 }
 
 async function loadLatestApiData() {
     const connection = document.getElementById("connectionStatus");
+
+    /* Netlify หรือเว็บไซต์ที่ไม่ได้เปิดในเครื่อง */
+    if (!API_BASE_URL) {
+        connection.textContent = "● DEMO MODE";
+        connection.style.color = "#ffc857";
+        return;
+    }
+
     try {
         const response = await fetch(`${API_BASE_URL}/api/status`, {
-            method: "GET", cache: "no-store"
+            method:"GET",
+            cache:"no-store"
         });
-        if (!response.ok) throw new Error("API response error");
+
+        if (!response.ok) {
+            throw new Error("API response error");
+        }
+
         const result = await response.json();
-        if (!result.success || !result.data) throw new Error("Invalid API data");
+
+        if (!result.success || !result.data) {
+            throw new Error("Invalid API data");
+        }
 
         connection.textContent = "● API เชื่อมต่อแล้ว";
         connection.style.color = "#36d69a";
 
         const data = result.data;
+
         if (data.updatedAt && data.machine) {
             document.getElementById("latestMachineName").textContent = data.machine;
             document.getElementById("latestReps").textContent = data.reps;
@@ -1308,8 +1280,10 @@ async function loadLatestApiData() {
             document.getElementById("latestDate").textContent = formatWorkoutDate(data.updatedAt);
 
             const isHardware = data.mode === "HARDWARE";
+
             document.getElementById("latestStatus").textContent =
                 isHardware ? "ข้อมูลจากอุปกรณ์" : "ข้อมูลจำลองจาก API";
+
             document.getElementById("latestMessage").textContent =
                 isHardware
                     ? "ข้อมูลนี้ได้รับจากอุปกรณ์ FitTrack ผ่าน API"
@@ -1318,6 +1292,7 @@ async function loadLatestApiData() {
             document.getElementById("latestMessage").textContent =
                 "API พร้อมใช้งานแล้ว แต่ยังไม่มีข้อมูลการออกกำลังกายส่งเข้ามา จึงแสดงข้อมูลตัวอย่างในหน้านี้";
         }
+
     } catch (error) {
         connection.textContent = "● API ยังไม่พร้อมใช้งาน";
         connection.style.color = "#ffc857";
@@ -1329,10 +1304,13 @@ async function loadLatestApiData() {
 renderCategories();
 renderLatestStats("Chest Press");
 loadLatestApiData();
-setInterval(loadLatestApiData, 3000);
+
+/* ตรวจสอบ API เฉพาะตอนเปิดในเครื่อง */
+if (API_BASE_URL) {
+    setInterval(loadLatestApiData, 3000);
+}
 
 </script>
 
 </body>
 </html>
-```
